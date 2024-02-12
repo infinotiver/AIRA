@@ -137,19 +137,9 @@ if __name__ == '__main__':
 			speak(f"Sir, the time is {strTime}")
 
 		elif 'open opera' in query:
-			codePath = r"C:\\Users\\GAURAV\\AppData\\Local\\Programs\\Opera\\launcher.exe"
+			codePath=""
 			os.startfile(codePath)
 
-		elif 'email to gaurav' in query:
-			try:
-				speak("What should I say?")
-				content = takeCommand()
-				to = "Receiver email address"
-				sendEmail(to, content)
-				speak("Email has been sent !")
-			except Exception as e:
-				print(e)
-				speak("I am not able to send this email")
 
 		elif 'send a mail' in query:
 			try:
@@ -188,8 +178,7 @@ if __name__ == '__main__':
 			speak("Thanks for giving me your time")
 			exit()
 
-		elif "who made you" in query or "who created you" in query: 
-			speak("I have been created by Gaurav.")
+
 			
 		elif 'joke' in query:
 			speak(pyjokes.get_joke())
@@ -214,8 +203,6 @@ if __name__ == '__main__':
 		elif "who i am" in query:
 			speak("If you talk then definitely your human.")
 
-		elif "why you came to world" in query:
-			speak("Thanks to Gaurav. further It's a secret")
 
 
 
