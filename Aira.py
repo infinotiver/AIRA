@@ -10,21 +10,27 @@ import subprocess
 import ctypes
 import time
 import requests
-import json
 import shutil
 import random
 from bs4 import BeautifulSoup
-from urllib.request import urlopen
-from gtts import gTTS
-
+import json
+from plyer import notification
+from urllib.parse import quote
+#import hugginfacechat
 # Replace with your personal details and API keys
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 print(voices)
 engine.setProperty('voice', voices[1].id)  # Choose female voice
-engine.setProperty('volume',0.0)
+engine.setProperty('volume',1)
+engine.setProperty('rate',150)
 assistant_name = "Aira"  # Customize assistant name
-
+def notify(t,m):
+    notification.notify(
+    title = t,
+    message = m,
+    app_icon = None,
+    timeout = 5,)
 def speak(audio):
     """Print and speak the given audio message with a mystical touch."""
     print(f"\033[35m{audio}\033[0m")
@@ -40,7 +46,9 @@ def mystical_greet():
         12: "The midday sun shines brightly, casting its magic upon you.",
         18: "The moon whispers secrets in the evening sky, inviting you to dream.",
     }
-    speak(greetings.get(hour, "Greetings, traveler!"))
+    speak(greetings.get(hour, "Greetings, user!"))
+    speak(f"This is {assistant_name} at your service.")
+    notify("Aira","Assistant woke up")
 
 def mystical_farewell():
     """Bid farewell to the user with a mystical touch."""
@@ -84,26 +92,54 @@ def speak_definition(word, definition_data):
 
     if antonyms:
         speak(f"Antonyms for {word} include: {', '.join(antonyms)}.")
-import os
-import requests
-import json
 
+
+"""
+def hugginfacechat():
+    print("The bot is ready to talk!! (Type 'quit' to exit)")
+    tokenizer, model = hugginfacechat.load_tokenizer_and_model()
+    chat_round = 1
+    chat_history_ids = None
+    while True:
+        inp = input("\nYou: ")
+
+        if inp.lower() == 'quit':
+            break
+        elif inp.lower() == "let's start":
+            speak("Great! Let's start the chat.")
+            chat_round = 1
+            chat_history_ids = None
+        elif inp.lower() == 'exit':
+            speak("Ending the chat. Goodbye!")
+            break
+        else:
+            chat_history_ids = hugginfacechat.generate_response(tokenizer, model, chat_round, chat_history_ids)
+            chat_round += 1
+"""
 def get_news(category):
     try:
         newsapi = os.environ.get("NEWSAPI")
-        url = f'https://newsapi.org/v2/top-headlines?country=in&category={category}&apiKey={newsapi}'
-        response = requests.get(url)
+        
+        if category.lower() == "national":
+            url = f'https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi}'
+        elif category.lower() == "headlines":
+            url = f'https://newsapi.org/v2/top-headlines?apiKey={newsapi}'
+        else:
+            url = f'https://newsapi.org/v2/everything?q={category}&apiKey={newsapi}'
+        try:
+            response = requests.get(url)
+        except:
+            return speak("Looks like there is no internet connection")
         data = response.json()
 
         if data['status'] == 'ok':
-            articles = data['articles']
+            articles = data['articles'][:5]  # Display only the top 5 news items
             if articles:
                 speak(f'Here are some top {category} news:')
                 print(f'=============== {category.upper()} ===============\n')
                 for i, item in enumerate(articles, start=1):
-                    print(f"{i}. {item['title']}\n")
-                    print(f"{item['description']}\n")
                     speak(f"{i}. {item['title']}\n")
+                    speak(f"{item['description']}\n")
             else:
                 speak(f'Sorry, no {category} news available at the moment.')
         else:
@@ -113,11 +149,20 @@ def get_news(category):
         print(str(e))
 
 def get_user_preference():
-    speak('Sure! What type of news would you like to hear? (world/national/headlines)')
+    speak('Sure! What type of news would you like to hear? (world/national/something(enter word))')
     user_preference = takeCommand().lower()
     return user_preference
 
-
+def get_joke():
+    try:
+        api_url = f'https://api.popcat.xyz/joke'
+        response = requests.get(api_url)
+        data=response.json()
+        joke=response['joke']
+    except Exception as e:
+        print(e)
+        joke="What do you give a sick lemon? Lemonaid."
+    return joke
 
 
 def takeCommand():
@@ -146,14 +191,14 @@ def takeCommand():
         query = input("> ")
         return query
 
-def sendEmail(to, content):
+def sendEmail(to,password, content):
     """Send an email using your credentials."""
     # Replace with your email and password
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
     email_id=os.environ.get("EMAIL_ID")
-    email_password=os.environ.get("EMAIL_PASSWORD")
+    email_password=password
     server.login(email_id, email_password)
     server.sendmail(email_id, to, content)
     server.close()
@@ -163,7 +208,7 @@ if __name__ == '__main__':
     clear = lambda: os.system('cls')
 
     # This Function will clean any
-    # command before execution of this python file
+    # command before the execution of this python file
     clear()
 
     mystical_greet()
@@ -177,17 +222,23 @@ if __name__ == '__main__':
             try:
                 results = wikipedia.summary(query, sentences=5)
             except wikipedia.DisambiguationError as e:
-                results=[]
-                for x in e.choice:
-                    results += wikipedia.summary(x, sentences=2)
+                speak("There are multiple options. Please specify.")
+                for i, option in enumerate(e.options, start=1):
+                    speak(f"{i}. {option}")
+                choice = int(input("Enter the number of your choice: "))
+                results = wikipedia.summary(e.options[choice - 1], sentences=5)
             except Exception as error:
                 pass
             speak("According to Wikipedia")
             speak(results)
-
         elif 'open youtube' in query:
-            speak("Here you go to Youtube\n")
-            webbrowser.open("youtube.com")
+            speak("Here you go to Youtube")
+            webbrowser.open("https://www.youtube.com")
+
+        elif 'youtube' in query:
+            search_query = query.replace('youtube', '').strip()
+            url_search = quote(search_query)
+            webbrowser.open(f"https://www.youtube.com/results?search_query={url_search}")
 
         elif 'open google' in query:
             speak("Here you go to Google\n")
@@ -196,6 +247,12 @@ if __name__ == '__main__':
         elif 'open stackoverflow' in query:
             speak("Here you go to Stack Over flow.Happy coding")
             webbrowser.open("stackoverflow.com")
+        elif 'open aisc' in query:
+            speak("Here you go to AI student Community")
+            webbrowser.open("aistudent.community")
+        elif 'open forum' in query or 'open aisc forum' in query:
+            speak('Here you go to AISC Forum')
+            webbrowser.open("forum.aistudent.community")
         elif 'define' in query:
             query=query.replace('define','')
             try:
@@ -213,15 +270,16 @@ if __name__ == '__main__':
 
         elif 'the time' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            speak(f" the time is {strTime}")
+            speak(f"The time is {strTime}")
 
         elif 'send a mail' in query:
             try:
-                speak("What message I should deliver throught the ether?")
+                speak("What message I should deliver through the ether?")
                 content = takeCommand()
                 speak("Whom should I deliver the magical letter? ")
-                to = input()
-                sendEmail(to, content)
+                to = input("Enter recipient's address > ")
+                password=input("Enter your email password > ")
+                sendEmail(to,password, content)
                 speak("Message sent through the ether...!")
             except Exception as e:
                 print(e)
@@ -241,7 +299,7 @@ if __name__ == '__main__':
             speak("Thanks for naming me")
         elif "change volume" in query or "set volume" in query:
             speak("Please tell the volume level (0.0 to 1.0)")
-            volume=takeCommand()
+            volume=float(takeCommand())
             try:
                 engine.setProperty(volume=volume)
                 speak("Volume set to the desired level")
@@ -254,11 +312,13 @@ if __name__ == '__main__':
             print("My friends call me", assistant_name)
 
         elif 'joke' in query:
-            speak("Work In progress")
+            joke=get_joke()
+            speak(joke)
 
         elif 'exit' in query:
             speak("Thanks for giving me your time")
             mystical_farewell()
+            #break()
 
         elif "calculate" in query:
             app_id = "Wolframalpha api id"
@@ -267,7 +327,6 @@ if __name__ == '__main__':
             query = query.split()[indx + 1:]
             res = client.query(' '.join(query))
             answer = next(res.results).text
-            print("The answer is " + answer)
             speak("The answer is " + answer)
 
         elif 'search' in query or 'play' in query:
@@ -293,7 +352,7 @@ if __name__ == '__main__':
 
         elif 'shutdown system' in query:
             speak("Hold On a Sec ! Your system is on its way to shut down")
-            subprocess.call('shutdown / p /f')
+            subprocess.call('shutdown /s')
 
         elif "don't listen" in query or "stop listening" in query:
             speak(f"For how much time you want to stop {assistant_name} from listening commands (in seconds)?")
@@ -321,7 +380,7 @@ if __name__ == '__main__':
             subprocess.call(["shutdown", "/l"])
 
         elif "write a note" in query:
-            speak("What should i write ?")
+            speak("What should I write?")
             note = takeCommand()
             file = open('Aira.txt', 'w')
             speak("Sir, Should I include date and time")
@@ -352,5 +411,6 @@ if __name__ == '__main__':
             city_name = takeCommand()
             complete_url = base_url + "appid =" + api_key + "&q =" + city_name
             pass
+        
         else:
-            speak("Sorry I dont understand that yet")
+            speak("Sorry I don't understand that yet")
