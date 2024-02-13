@@ -22,7 +22,7 @@ from gtts import gTTS
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 print(voices)
-engine.setProperty('voice', voices[1].id)  # Choose a mystical voice
+engine.setProperty('voice', voices[1].id)  # Choose female voice
 engine.setProperty('volume',0.5)
 assistant_name = "Aira"  # Customize assistant name
 
