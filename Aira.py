@@ -16,6 +16,7 @@ import random
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from gtts import gTTS
+import time
 
 # Replace with your personal details and API keys
 engine = pyttsx3.init('sapi5')
@@ -32,7 +33,8 @@ def speak(audio):
 
 def mystical_greet():
     """Greet the user with a mystical touch."""
-    hour = int(datetime.datetime.now(tz="Asia/Kolkata").hour)
+    timezone=time.tzname
+    hour = int(datetime.datetime.now(tz=timezone[1]).hour)
     greetings = {
         0: "A mystical morning awakens, beckoning you forth.",
         12: "The midday sun shines brightly, casting its magic upon you.",
