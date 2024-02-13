@@ -340,8 +340,8 @@ if __name__ == '__main__':
             print(file.read())
             speak(file.read(6))
 
-        elif "Aira" in query:
-            speak("Aira 1 Version 0 in your service")
+        elif assistant_name in query:
+            speak("Model - Aira 1 Version 0 at your service")
             speak(assistant_name)
 
         elif "weather" in query:
