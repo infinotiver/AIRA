@@ -16,13 +16,14 @@ import random
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from gtts import gTTS
-import time
+
 
 # Replace with your personal details and API keys
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 print(voices)
 engine.setProperty('voice', voices[1].id)  # Choose a mystical voice
+engine.setProperty('volume',0.5)
 assistant_name = "Aira"  # Customize assistant name
 
 def speak(audio):
@@ -33,8 +34,8 @@ def speak(audio):
 
 def mystical_greet():
     """Greet the user with a mystical touch."""
-    timezone=time.tzname
-    hour = int(datetime.datetime.now(tz=timezone[1]).hour)
+    
+    hour = int(datetime.datetime.now().hour)
     greetings = {
         0: "A mystical morning awakens, beckoning you forth.",
         12: "The midday sun shines brightly, casting its magic upon you.",
@@ -56,17 +57,17 @@ def takeCommand():
         with sr.Microphone() as source:
             r.pause_threshold = 1
             r.dynamic_energy_threshold = False
-            audio = r.listen(source, timeout=30)  # Set timeout to 30 seconds
+            audio = r.listen(source, timeout=15)  # Set timeout to 30 seconds
 
         print("Recognizing voice input...")
         query = r.recognize_google(audio, language='en-in')
-        print(f"You said: {query}\n")
+        print(f"User > {query}\n")
 
         return query
 
     except Exception as e:
-        print(e)
-        print("Speak or type your command:")
+        #print(e)
+        print("Type your command:")
 
         # Allow text input as backup
         query = input("> ")
@@ -101,10 +102,12 @@ if __name__ == '__main__':
             try:
                 results = wikipedia.summary(query, sentences=5)
             except wikipedia.DisambiguationError as e:
-                choice = random.choice(e.options)
-                results = wikipedia.summary(choice, sentences=5)
+                results=[]
+                for x in e.choice:
+                    results += wikipedia.summary(x, sentences=2)
+            except Error as error:
+                pass
             speak("According to Wikipedia")
-            print(results)
             speak(results)
 
         elif 'open youtube' in query:
@@ -150,16 +153,21 @@ if __name__ == '__main__':
         elif 'fine' in query:
             speak("It's good to know that you're fine")
 
-        elif "change my name to" in query:
-            query = query.replace("change my name to", "")
-            assistant_name = query
 
         elif "change name" in query:
             speak("What would you like to call me, ")
             assistant_name = takeCommand()
             speak("Thanks for naming me")
-
-        elif "what's your name" in query or "What is your name" in query:
+        elif "change volume" in query or "set volume" in query:
+            speak("Please tell the volume level (0.0 to 1.0)")
+            volume=takeCommand()
+            try:
+                engine.setProperty(volume=volume)
+                speak("Volume set to the desired level")
+            except:
+                speak("There was some problem in setting that volume, please recheck values")
+                pass
+        elif "what's your name" in query or "what is your name" in query:
             speak("My friends call me")
             speak(assistant_name)
             print("My friends call me", assistant_name)
@@ -212,10 +220,10 @@ if __name__ == '__main__':
             subprocess.call('shutdown / p /f')
 
         elif "don't listen" in query or "stop listening" in query:
-            speak("for how much time you want to stop Aira from listening commands")
+            speak(f"For how much time you want to stop {assistant_name} from listening commands (in seconds)?")
             a = int(takeCommand())
             time.sleep(a)
-            print(a)
+            speak("Master, the wait is over...")
 
         elif "where is" in query:
             query = query.replace("where is", "")
@@ -237,7 +245,7 @@ if __name__ == '__main__':
             subprocess.call(["shutdown", "/l"])
 
         elif "write a note" in query:
-            speak("What should i write,")
+            speak("What should i write ?")
             note = takeCommand()
             file = open('Aira.txt', 'w')
             speak("Sir, Should I include date and time")
@@ -257,7 +265,6 @@ if __name__ == '__main__':
             speak(file.read(6))
 
         elif "Aira" in query:
-            wishMe()
             speak("Aira 1 Version 0 in your service")
             speak(assistant_name)
 
@@ -268,3 +275,4 @@ if __name__ == '__main__':
             print("City name : ")
             city_name = takeCommand()
             complete_url = base_url + "appid =" + api_key + "&q =" + city_name
+            pass
