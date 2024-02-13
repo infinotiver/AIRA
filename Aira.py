@@ -17,13 +17,12 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from gtts import gTTS
 
-
 # Replace with your personal details and API keys
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 print(voices)
 engine.setProperty('voice', voices[1].id)  # Choose female voice
-engine.setProperty('volume',0.5)
+engine.setProperty('volume',0.0)
 assistant_name = "Aira"  # Customize assistant name
 
 def speak(audio):
@@ -46,6 +45,80 @@ def mystical_greet():
 def mystical_farewell():
     """Bid farewell to the user with a mystical touch."""
     speak("May your journey be filled with wonder and enchantment. Farewell!")
+# Function to get word definition from the API
+def get_word_definition(word):
+    api_url = f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}'
+    response = requests.get(api_url)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data
+    else:
+        return None
+
+# Function to format and speak the definition
+def speak_definition(word, definition_data):
+    if not definition_data:
+        speak(f"Sorry, I couldn't find the definition for {word}.")
+        return
+
+    word_info = definition_data[0]
+
+    # Word and phonetic pronunciation
+    speak(f"The word {word} is pronounced as {word_info['phonetic']}.")
+
+    # Meanings and definitions
+    for meaning in word_info['meanings']:
+        part_of_speech = meaning['partOfSpeech']
+        speak(f"As a {part_of_speech}, it can mean:")
+        
+        for idx, definition in enumerate(meaning['definitions'], start=1):
+            speak(f"{idx}. {definition['definition']}")
+
+    # Synonyms and antonyms
+    synonyms = word_info.get('synonyms', [])
+    antonyms = word_info.get('antonyms', [])
+
+    if synonyms:
+        speak(f"Synonyms for {word} include: {', '.join(synonyms)}.")
+
+    if antonyms:
+        speak(f"Antonyms for {word} include: {', '.join(antonyms)}.")
+import os
+import requests
+import json
+
+def get_news(category):
+    try:
+        newsapi = os.environ.get("NEWSAPI")
+        url = f'https://newsapi.org/v2/top-headlines?country=in&category={category}&apiKey={newsapi}'
+        response = requests.get(url)
+        data = response.json()
+
+        if data['status'] == 'ok':
+            articles = data['articles']
+            if articles:
+                speak(f'Here are some top {category} news:')
+                print(f'=============== {category.upper()} ===============\n')
+                for i, item in enumerate(articles, start=1):
+                    print(f"{i}. {item['title']}\n")
+                    print(f"{item['description']}\n")
+                    speak(f"{i}. {item['title']}\n")
+            else:
+                speak(f'Sorry, no {category} news available at the moment.')
+        else:
+            speak('Sorry, there was an issue fetching news. Please try again later.')
+
+    except Exception as e:
+        print(str(e))
+
+def get_user_preference():
+    speak('Sure! What type of news would you like to hear? (world/national/headlines)')
+    user_preference = takeCommand().lower()
+    return user_preference
+
+
+
 
 def takeCommand():
     """Capture and return a user command, allowing voice and text input."""
@@ -79,8 +152,10 @@ def sendEmail(to, content):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login('your_email@gmail.com', 'your_password')
-    server.sendmail('your_email@gmail.com', to, content)
+    email_id=os.environ.get("EMAIL_ID")
+    email_password=os.environ.get("EMAIL_PASSWORD")
+    server.login(email_id, email_password)
+    server.sendmail(email_id, to, content)
     server.close()
     speak("Your message has been sent through the ether!")
 
@@ -105,7 +180,7 @@ if __name__ == '__main__':
                 results=[]
                 for x in e.choice:
                     results += wikipedia.summary(x, sentences=2)
-            except Error as error:
+            except Exception as error:
                 pass
             speak("According to Wikipedia")
             speak(results)
@@ -121,7 +196,13 @@ if __name__ == '__main__':
         elif 'open stackoverflow' in query:
             speak("Here you go to Stack Over flow.Happy coding")
             webbrowser.open("stackoverflow.com")
-
+        elif 'define' in query:
+            query=query.replace('define','')
+            try:
+                word_data=get_word_definition(query)
+                speak_definition(query,word_data)
+            except Exception as e:
+                speak(e)
         elif 'play music' in query or "play song" in query:
             speak("Here you go with music")
 
@@ -136,19 +217,19 @@ if __name__ == '__main__':
 
         elif 'send a mail' in query:
             try:
-                speak("What should I say?")
+                speak("What message I should deliver throught the ether?")
                 content = takeCommand()
-                speak("whom should I send")
+                speak("Whom should I deliver the magical letter? ")
                 to = input()
                 sendEmail(to, content)
-                speak("Email has been sent!")
+                speak("Message sent through the ether...!")
             except Exception as e:
                 print(e)
                 speak("I am not able to send this email")
 
         elif 'how are you' in query:
             speak("I am fine, Thank you")
-            speak("How are you,")
+            speak("How are you ?")
 
         elif 'fine' in query:
             speak("It's good to know that you're fine")
@@ -194,22 +275,17 @@ if __name__ == '__main__':
             query = query.replace("play", "")
             webbrowser.open(query)
 
-        elif 'news' in query:
-            try:
-                jsonObj = urlopen('''https://newsapi.org / v1 / articles?source = the-times-of-india&sortBy = top&apiKey =\\times of India Api key\\''')
-                data = json.load(jsonObj)
-                i = 1
+        if 'news' in query:
+            user_preference = get_user_preference()
 
-                speak('here are some top news from the times of india')
-                print('''=============== TIMES OF INDIA ============''' + '\n')
-
-                for item in data['articles']:
-                    print(str(i) + '. ' + item['title'] + '\n')
-                    print(item['description'] + '\n')
-                    speak(str(i) + '. ' + item['title'] + '\n')
-                    i += 1
-            except Exception as e:
-                print(str(e))
+            if 'world' in user_preference:
+                get_news('world')
+            elif 'national' in user_preference:
+                get_news('general')  # You can customize this to a specific category for Indian news
+            elif 'headlines' in user_preference:
+                get_news('top-headlines')
+            else:
+                speak('Sorry, I couldn\'t understand your preference. Please try again.')
 
         elif 'lock window' in query:
             speak("locking the device")
@@ -276,3 +352,5 @@ if __name__ == '__main__':
             city_name = takeCommand()
             complete_url = base_url + "appid =" + api_key + "&q =" + city_name
             pass
+        else:
+            speak("Sorry I dont understand that yet")
