@@ -16,21 +16,40 @@ from bs4 import BeautifulSoup
 import json
 from plyer import notification
 from urllib.parse import quote
-#import hugginfacechat
-# Replace with your personal details and API keys
+import keyboard
+import hugginfaceblenderbot
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 print(voices)
 engine.setProperty('voice', voices[1].id)  # Choose female voice
 engine.setProperty('volume',1)
 engine.setProperty('rate',150)
+
 assistant_name = "Aira"  # Customize assistant name
+
 def notify(t,m):
     notification.notify(
     title = t,
     message = m,
     app_icon = None,
     timeout = 5,)
+    
+def mode_select():
+	speak(f"Please select an input mode for interacting with {assistant_name}")
+	speak("1.Press 't' for Text Input Mode\n2.Press 's' for Speech Input Mode ")
+
+	while True : 
+		if keyboard.is_pressed('t'):
+			speak('You have successfully Selected : Text Input Mode')
+			mode_var= 0
+			time.sleep(0.6)
+			break
+		elif keyboard.is_pressed('s'):
+			speak('You have successfully Selected : Speech Input Mode')
+			mode_var= 1
+			time.sleep(0.6)
+			break		    
+	return mode_var
 def speak(audio):
     """Print and speak the given audio message with a mystical touch."""
     print(f"\033[35m{audio}\033[0m")
@@ -94,7 +113,7 @@ def speak_definition(word, definition_data):
         speak(f"Antonyms for {word} include: {', '.join(antonyms)}.")
 
 
-"""
+
 def hugginfacechat():
     print("The bot is ready to talk!! (Type 'quit' to exit)")
     tokenizer, model = hugginfacechat.load_tokenizer_and_model()
@@ -115,7 +134,7 @@ def hugginfacechat():
         else:
             chat_history_ids = hugginfacechat.generate_response(tokenizer, model, chat_round, chat_history_ids)
             chat_round += 1
-"""
+
 def get_news(category):
     try:
         newsapi = os.environ.get("NEWSAPI")
