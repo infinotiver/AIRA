@@ -1,2 +1,4 @@
 .env
 Aira.txt
+__pycache__
+.venv
