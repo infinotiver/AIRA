@@ -1,0 +1,34 @@
+import webbrowser
+from plyer import notification
+import keyboard
+
+class OpenApplications:
+    @staticmethod
+    def open_website(url, display_name):
+        webbrowser.open(url)
+        response = f"Opening {display_name}"
+        return response
+
+    @staticmethod
+    def youtube():
+        return OpenApplications.open_website("https://www.youtube.com", "Youtube")
+
+    @staticmethod
+    def google():
+        return OpenApplications.open_website("https://www.google.com", "Google")
+
+    @staticmethod
+    def stackoverflow():
+        return OpenApplications.open_website("https://stackoverflow.com", "Stack Overflow")
+
+    @staticmethod
+    def aisc():
+        return OpenApplications.open_website("https://aistudent.community", "AISC")
+
+    @staticmethod
+    def aisc_forum():
+        return OpenApplications.open_website("https://forum.aistudent.community", "AISC Forum")
+
+    @staticmethod
+    def open_custom_application(application_name, url):
+        return OpenApplications.open_website(url, application_name)
