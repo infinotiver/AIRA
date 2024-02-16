@@ -2,6 +2,7 @@ import webbrowser
 from plyer import notification
 import keyboard
 
+
 class OpenApplications:
     @staticmethod
     def open_website(url, display_name):
@@ -19,7 +20,9 @@ class OpenApplications:
 
     @staticmethod
     def stackoverflow():
-        return OpenApplications.open_website("https://stackoverflow.com", "Stack Overflow")
+        return OpenApplications.open_website(
+            "https://stackoverflow.com", "Stack Overflow"
+        )
 
     @staticmethod
     def aisc():
@@ -27,7 +30,9 @@ class OpenApplications:
 
     @staticmethod
     def aisc_forum():
-        return OpenApplications.open_website("https://forum.aistudent.community", "AISC Forum")
+        return OpenApplications.open_website(
+            "https://forum.aistudent.community", "AISC Forum"
+        )
 
     @staticmethod
     def open_custom_application(application_name, url):
