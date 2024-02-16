@@ -10,20 +10,20 @@ import subprocess
 import ctypes
 import time
 import requests
-import shutil
-import random
 from bs4 import BeautifulSoup
 import json
 from plyer import notification
 from urllib.parse import quote
 import keyboard
 import threading
-from geopy.geocoders import Nominatim  # importing geopy library
+from geopy.geocoders import Nominatim  
 import pywhatkit
 import skills.openapplications as openapplications
 import skills.findfiles as findfiles
 import skills.weather as weather
-
+import skills.chat as chat
+import skills.fonts as fonts
+message=None
 # calling the Nominatim tool
 loc = Nominatim(user_agent="GetLoc")
 # import hugginfaceblenderbot
@@ -32,7 +32,7 @@ engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")
 print(voices)
 engine.setProperty("voice", voices[1].id)  # Choose female voice
-engine.setProperty("volume", 1)
+engine.setProperty("volume", 0)
 engine.setProperty("rate", 190)
 
 assistant_name = "Aira"  # Customize assistant name
@@ -115,8 +115,8 @@ def mystical_greet():
         12: "The midday sun shines brightly, casting its magic upon you.",
         18: "The moon whispers secrets in the evening sky, inviting you to dream.",
     }
+    
     speak(greetings.get(hour, "Greetings, user!"))
-    speak(f"This is {assistant_name} at your service.")
     notify("Aira", "Assistant woke up")
 
 
@@ -264,8 +264,7 @@ def get_joke():
         api_url = f"https://api.popcat.xyz/joke"
         response = requests.get(api_url)
         data = response.json()
-        print(data)
-        joke = response["joke"]
+        joke = data["joke"]
     except Exception as e:
         print(e)
         joke = "What do you give a sick lemon? Lemonaid."
@@ -286,10 +285,8 @@ def takeCommand(mode):
 
             audio = r.listen(source)  # Set timeout to 30 seconds
         print("Recognizing voice input...")
-        try:
-            query = r.recognize_google(audio, language="en-in")
-        except Exception:
-            pass  # gotta retry
+        query = r.recognize_google(audio, language="en-in")
+
         print(f"User > {query}\n")
 
         return query
@@ -322,11 +319,9 @@ def sendEmail(to, password, content):
 
 if __name__ == "__main__":
     clear = lambda: os.system("cls")
-
-    # This Function will clean any
-    # command before the execution of this python file
-
     clear()
+    fonts.bootup()
+
     mode = mode_select()
     mystical_greet()
 
@@ -439,7 +434,7 @@ if __name__ == "__main__":
             query = query.replace("search", "")
             query = query.replace("play", "")
             webbrowser.open(query)
-        if "news" in query:
+        elif "news" in query:
             user_preference = get_user_preference()
 
             if "world" in user_preference:
@@ -447,7 +442,7 @@ if __name__ == "__main__":
             elif "national" in user_preference:
                 get_news(
                     "general"
-                )  # You can customize this to a specific category for Indian news
+                )  
             elif "headlines" in user_preference:
                 get_news("top-headlines")
             else:
@@ -456,7 +451,7 @@ if __name__ == "__main__":
             speak("locking the device")
             ctypes.windll.user32.LockWorkStation()
         elif "shutdown system" in query:
-            speak("Hold On a Sec ! Your system is on its way to shut down")
+            speak("Hold On a Sec ! Your system is on its way to shut down.\nExecuting command in three seconds.")
             subprocess.call("shutdown /s")
         elif "don't listen" in query or "stop listening" in query:
             speak(
@@ -483,16 +478,16 @@ if __name__ == "__main__":
             speak(location)
             try:
                 getLoc = loc.geocode(location)
-            except:
-                ind = query.split().index("is")
-                location = query[ind + 8 :]
-                url = "https://www.google.com/maps/place/" + "".join(location)
-                speak("This is where i found, " + str(location))
-                webbrowser.open(url)
-                pass
+            except Exception as e:
+                print(e)
+            ind = query.split()
+            location = query[ind + 8 :]
+            url = "https://www.google.com/maps/place/" + "".join(location)
+            webbrowser.open(url)
             if getLoc:
                 speak(getLoc.address)
                 webbrowser.open(getLoc.address)
+            webbrowser.open_new_tab(url)
 
         elif "restart" in query:
             subprocess.call(["shutdown", "/r"])
@@ -556,13 +551,19 @@ if __name__ == "__main__":
                 speak(x)
 
         else:
-            text = quote(query)
-            botname = quote(assistant_name)
-            url = f"https://api.popcat.xyz/chatbot?msg={text}&owner=Pranjal+Prakarsh&botname={botname}"
-            try:
-                request = requests.get(url)
-                data = request.json()
-                output = data["response"]
-                speak(output)
-            except:
-                speak("Sorry, I don't understand that")
+
+            assistant_reply = chat.get_chat_response(query)
+            if assistant_reply:
+                speak(assistant_reply)
+            else:
+            
+                text = quote(query)
+                botname = quote(assistant_name)
+                url = f"https://api.popcat.xyz/chatbot?msg={text}&owner=Pranjal+Prakarsh&botname={botname}"
+                try:
+                    request = requests.get(url)
+                    data = request.json()
+                    output = data["response"]
+                    speak(output)
+                except:
+                    speak("Sorry, I don't understand that")
