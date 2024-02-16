@@ -77,12 +77,33 @@ def mode_select():
             break
     return mode_var
 
+def search_wikipedia(query):
+ 
+    try:
+        results = wikipedia.summary(query, sentences=5)
+    except wikipedia.DisambiguationError as e:
+        speak("There are multiple options. Please specify.")
+        for i, option in enumerate(e.options[:10], start=1):
+            speak(f"{i}. {option}",1)
+        choice = int(input("Enter the number of your choice: "))
+        engine.setProperty("rate", 200)
+        results = wikipedia.summary(e.options[choice - 1], sentences=5)
+    except Exception as error:
+        print(error)
 
-def speak(audio):
-    """Print and speak the given audio message with a mystical touch."""
-    print(f"\033[35m{audio}\033[0m")
-    engine.say(audio)
-    engine.runAndWait()
+    speak("According to Wikipedia")
+    if results:
+        speak(results)
+    else:
+        speak("No results were there")
+def speak(audio,mode=None):
+    if not mode or mode==0:
+        """Print and speak the given audio message with a mystical touch."""
+        print(f"\033[35m{audio}\033[0m")
+        engine.say(audio)
+        engine.runAndWait()
+    else:
+        print(audio)
 
 
 def mystical_greet():
@@ -313,26 +334,9 @@ if __name__ == "__main__":
         query = takeCommand(mode).lower()
 
         if "wikipedia" in query:
-            speak("Searching Wikipedia...")
+            speak("Searching wikipedia")
             query = query.replace("wikipedia", "")
-            try:
-                results = wikipedia.summary(query, sentences=5)
-            except wikipedia.DisambiguationError as e:
-                engine.setProperty("rate", 500)
-                speak("There are multiple options. Please specify.")
-                for i, option in enumerate(e.options[:10], start=1):
-                    speak(f"{i}. {option}")
-                choice = int(input("Enter the number of your choice: "))
-                engine.setProperty("rate", 200)
-                results = wikipedia.summary(e.options[choice - 1], sentences=5)
-            except Exception as error:
-                print(error)
-
-            speak("According to Wikipedia")
-            if results:
-                speak(results)
-            else:
-                speak("No results were there")
+            search_wikipedia(query)
         elif "open youtube" in query:
             speak(openapplications.Open_Applications.youtube())
         elif "youtube" in query:
