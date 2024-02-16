@@ -18,25 +18,24 @@ import keyboard
 import threading
 from geopy.geocoders import Nominatim  
 import pywhatkit
+# (import) skills
 import skills.openapplications as openapplications
 import skills.findfiles as findfiles
 import skills.weather as weather
 import skills.chat as chat
 import skills.fonts as fonts
-message=None
+import pygame
+# Initialisation
 # calling the Nominatim tool
 loc = Nominatim(user_agent="GetLoc")
-# import hugginfaceblenderbot
-
 engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")
-print(voices)
 engine.setProperty("voice", voices[1].id)  # Choose female voice
 engine.setProperty("volume", 0)
 engine.setProperty("rate", 190)
 
 assistant_name = "Aira"  # Customize assistant name
-import pygame
+
 
 # Initialize pygame mixer
 pygame.mixer.init()
