@@ -16,14 +16,17 @@ from plyer import notification
 from urllib.parse import quote
 import keyboard
 import threading
-from geopy.geocoders import Nominatim  
+from geopy.geocoders import Nominatim 
 import pywhatkit
+
 # (import) skills
 import skills.openapplications as openapplications
 import skills.findfiles as findfiles
 import skills.weather as weather
 import skills.chat as chat
 import skills.fonts as fonts
+import skills.definition as definition
+import skills.sendmail as sendmail
 import pygame
 # Initialisation
 # calling the Nominatim tool
@@ -31,7 +34,7 @@ loc = Nominatim(user_agent="GetLoc")
 engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")
 engine.setProperty("voice", voices[1].id)  # Choose female voice
-engine.setProperty("volume", 0)
+engine.setProperty("volume", 0.9)
 engine.setProperty("rate", 190)
 
 assistant_name = "Aira"  # Customize assistant name
@@ -40,7 +43,7 @@ assistant_name = "Aira"  # Customize assistant name
 # Initialize pygame mixer
 pygame.mixer.init()
 
-# ...
+
 
 
 def play_music(music_dir):
@@ -123,51 +126,6 @@ def mystical_farewell():
     """Bid farewell to the user with a mystical touch."""
     speak("May your journey be filled with wonder and enchantment. Farewell!")
 
-
-# Function to get word definition from the API
-
-
-def get_word_definition(word):
-    api_url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
-    response = requests.get(api_url)
-
-    if response.status_code == 200:
-        data = response.json()
-        return data
-    else:
-        return None
-
-
-# Function to format and speak the definition
-
-
-def speak_definition(word, definition_data):
-    if not definition_data:
-        speak(f"Sorry, I couldn't find the definition for {word}.")
-        return
-    word_info = definition_data[0]
-
-    # Word and phonetic pronunciation
-
-    speak(f"The word {word} is pronounced as {word_info['phonetic']}.")
-
-    # Meanings and definitions
-
-    for meaning in word_info["meanings"]:
-        part_of_speech = meaning["partOfSpeech"]
-        speak(f"As a {part_of_speech}, it can mean:")
-
-        for idx, definition in enumerate(meaning["definitions"], start=1):
-            speak(f"{idx}. {definition['definition']}")
-    # Synonyms and antonyms
-
-    synonyms = word_info.get("synonyms", [])
-    antonyms = word_info.get("antonyms", [])
-
-    if synonyms:
-        speak(f"Synonyms for {word} include: {', '.join(synonyms)}.")
-    if antonyms:
-        speak(f"Antonyms for {word} include: {', '.join(antonyms)}.")
 
 
 def get_news(category):
@@ -301,19 +259,7 @@ def takeCommand(mode):
     return query
 
 
-def sendEmail(to, password, content):
-    """Send an email using your credentials."""
-    # Replace with your email and password
 
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.ehlo()
-    server.starttls()
-    email_id = os.environ.get("EMAIL_ID")
-    email_password = password
-    server.login(email_id, email_password)
-    server.sendmail(email_id, to, content)
-    server.close()
-    speak("Your message has been sent through the ether!")
 
 
 if __name__ == "__main__":
@@ -358,8 +304,9 @@ if __name__ == "__main__":
         elif "define" in query:
             query = query.replace("define", "")
             try:
-                word_data = get_word_definition(query)
-                speak_definition(query, word_data)
+                word_data = definition.get_word_definition(query)
+                word_data=definition.speak_definition(query, word_data)
+                speak(word_data)
             except Exception as e:
                 speak(e)
         elif "play music" in query or "play song" in query:
@@ -383,7 +330,7 @@ if __name__ == "__main__":
                 speak("Whom should I deliver the magical letter? ")
                 to = input("Enter recipient's address > ")
                 password = input("Enter your email password > ")
-                sendEmail(to, password, content)
+                sendmail.sendEmail(to, password, content)
                 speak("Message sent through the ether...!")
             except Exception as e:
                 print(e)
