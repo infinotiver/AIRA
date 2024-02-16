@@ -396,8 +396,7 @@ if __name__ == "__main__":
                 speak("I am not able to send this email")
 
         elif "how are you" in query:
-            speak("I am fine, Thank you")
-            speak("How are you ?")
+            speak("I am fine, how are you")
         elif "fine" in query:
             speak("It's good to know that you're fine")
         elif "change name" in query:
@@ -418,9 +417,9 @@ if __name__ == "__main__":
         elif "change mode" in query or "mode" in query:
             mode_select()
         elif "what's your name" in query or "what is your name" in query:
-            speak("My friends call me")
+            speak("My friends call me ")
             speak(assistant_name)
-            print("My friends call me", assistant_name)
+
         elif "joke" in query:
             joke = get_joke()
             speak(joke)
