@@ -6,7 +6,7 @@ def get_chat_response(msg_content):
         url = 'https://api.pawan.krd/v1/chat/completions'
         api=os.environ.get("OPENAI_API")
         headers = {
-            'Authorization': 'Bearer {api}',
+            'Authorization': f'Bearer {api}',
             'Content-Type': 'application/json'
         }
 
