@@ -25,8 +25,8 @@ import skills.findfiles as findfiles
 import skills.weather as weather
 import skills.chat as chat
 import skills.fonts as fonts
-import skills.definition as definition
 import skills.sendmail as sendmail
+import skills.definition as definition
 import pygame
 # Initialisation
 # calling the Nominatim tool
@@ -98,14 +98,14 @@ def search_wikipedia(query):
         speak(results)
     else:
         speak("No results were there")
-def speak(audio,mode=None):
-    if not mode or mode==0:
-        """Print and speak the given audio message with a mystical touch."""
-        print(f"\033[35m{audio}\033[0m")
-        engine.say(audio)
-        engine.runAndWait()
-    else:
-        print(audio)
+
+
+def speak(audio):
+    """Print and speak the given audio message with a mystical touch."""
+    print(f"\033[35m{audio}\033[0m")
+    engine.say(audio)
+    engine.runAndWait()
+
 
 
 def mystical_greet():
@@ -274,12 +274,16 @@ if __name__ == "__main__":
         query = takeCommand(mode).lower()
 
         if "wikipedia" in query:
+            
             speak("Searching wikipedia")
             query = query.replace("wikipedia", "")
             search_wikipedia(query)
+
         elif "open youtube" in query:
             speak(openapplications.Open_Applications.youtube())
+
         elif "youtube" in query:
+
             search_query = query.replace("youtube", "").strip()
             url_search = quote(search_query)
             webbrowser.open(
@@ -304,7 +308,7 @@ if __name__ == "__main__":
         elif "define" in query:
             query = query.replace("define", "")
             try:
-                word_data = defnition.get_word_definition(query)
+                word_data = definition.get_word_definition(query)
                 word_data=definition.speak_definition(query, word_data)
                 speak(word_data)
             except Exception as e:
