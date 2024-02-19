@@ -304,7 +304,7 @@ if __name__ == "__main__":
         elif "define" in query:
             query = query.replace("define", "")
             try:
-                word_data = definition.get_word_definition(query)
+                word_data = defnition.get_word_definition(query)
                 word_data=definition.speak_definition(query, word_data)
                 speak(word_data)
             except Exception as e:
