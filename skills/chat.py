@@ -3,7 +3,7 @@ import os
 
 def get_chat_response(msg_content):
     try:
-        url = 'https://api.pawan.krd/v1/chat/completions'
+        url = 'https://api.pawan.krd/pai-001'
         api=os.environ.get("OPENAI_API")
         headers = {
             'Authorization': f'Bearer {api}',
