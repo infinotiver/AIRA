@@ -5,13 +5,11 @@ import webbrowser
 import datetime
 import wolframalpha
 import os
-import smtplib
 import subprocess
 import ctypes
 import time
 import requests
 from bs4 import BeautifulSoup
-import json
 from plyer import notification
 from urllib.parse import quote
 import keyboard
