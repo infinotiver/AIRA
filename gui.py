@@ -2,7 +2,7 @@ import tkinter as tk
 import customtkinter
 from time import strftime
 from threading import Timer
-
+import webbrowser
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light")
 customtkinter.set_default_color_theme("blue")
 
@@ -33,6 +33,16 @@ class AssistantGUI:
             corner_radius=20,
         )
         settings_button.pack(pady=(100, 10))
+
+        about_button = customtkinter.CTkButton(
+            sidebar_frame,
+            text="About",
+            command=self.open_about,
+            width=150,
+            height=40,
+            corner_radius=20,
+        )
+        about_button.pack(pady=10)
 
         # Add more buttons in the sidebar as needed
 
@@ -98,6 +108,21 @@ class AssistantGUI:
         # Placeholder for opening settings
         print("Opening settings...")
 
+    def open_about(self):
+        # Create an app info window
+        about_window = tk.Toplevel(self.root)
+        about_window.title("About")
+        about_window.geometry("300x200")
+
+        about_label = tk.Label(about_window, text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver (Pranjal Prakarsh)`",font=("Arial",11))
+        code_label=tk.Label(about_window,text="This is a voice / text operated personal assistant ")
+        code_button=customtkinter.CTkButton(about_window,text="View Source Code",command=self.open_code,bg_color="black",fg_color="white",corner_radius=5)
+        about_label.pack(pady=10)
+        code_label.pack(pady=5)
+        code_button.place(anchor="center")
+
+    def open_code(self):
+        webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
 if __name__ == "__main__":
     root = tk.Tk()
 
