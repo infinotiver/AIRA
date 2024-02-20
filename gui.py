@@ -1,5 +1,7 @@
 import tkinter as tk
 import customtkinter
+from time import strftime
+from threading import Timer
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light")
 customtkinter.set_default_color_theme("blue")
@@ -12,6 +14,9 @@ class AssistantGUI:
 
         self.create_sidebar()
         self.create_main_frame()
+
+        # Start updating time
+        self.update_time()
 
     def create_sidebar(self):
         sidebar_frame = tk.Frame(
@@ -34,22 +39,60 @@ class AssistantGUI:
     def create_main_frame(self):
         main_frame = tk.Frame(self.root, width=600, height=600, padx=10, pady=15)
         main_frame.grid(row=0, column=1, sticky="nsew")
-
-        record_button = customtkinter.CTkButton(
+        
+        self.record_button = customtkinter.CTkButton(
             main_frame,
             text="Record",
             command=self.start_recording,
             width=150,
             height=40,
             corner_radius=20,
+            font=("Arial", 25) 
         )
-        record_button.place(relx=0.5, rely=0.5, anchor="center")
+        self.record_button.place(relx=0.5, rely=0.5, anchor="center")
 
-        # Add main content here, e.g., chat window, results display, etc.
+        self.user_input_label = tk.Label(
+            main_frame, text="", font=("Helvetica", 12), foreground="black", background="gray"
+        )
+        self.user_input_label.place(relx=1, rely=0, anchor="ne")
+
+        self.output_text = tk.Label(
+            main_frame, text="", font=("Helvetica", 12), foreground="black", background="white"
+        )
+        self.output_text.place(relx=0, rely=1, anchor="sw")
+        self.time_label = tk.Label(
+            main_frame, text="", font=("Helvetica", 12), foreground="black",background="gray"
+        )
+        self.time_label.place(relx=1, rely=1, anchor="se",)
+
+    def update_time(self):
+        # Update the time dynamically
+        time_string = strftime("%H:%M:%S %p")
+        self.time_label.configure(text=time_string)
+        self.root.after(1000, self.update_time)
 
     def start_recording(self):
-        # You can implement the recording functionality here
-        print("Recording...")
+        # Simulating recording and recognizing user input
+        user_input = "This is a sample user input."  # Replace this with the actual recognized input
+        self.display_user_input(user_input)
+
+        # Add your logic to convert audio input to text and display the result
+        output_text = "This is the recognized text from audio input."  # Replace this with the actual result
+        self.display_output(output_text)
+
+        # Schedule to clear the output after 10 seconds
+        timer = Timer(10, self.clear_output)
+        timer.start()
+
+    def display_user_input(self, input_text):
+        self.user_input_label.config(text=f"User Input: {input_text}")
+
+    def display_output(self, output_text):
+        self.output_text.config(text=f"Output: {output_text}")
+
+    def clear_output(self):
+        self.output_text.config(text="")
+        self.user_input_label.config(text="")
 
     def open_settings(self):
         # Placeholder for opening settings
