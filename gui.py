@@ -116,10 +116,10 @@ class AssistantGUI:
 
         about_label = tk.Label(about_window, text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver (Pranjal Prakarsh)`",font=("Arial",11))
         code_label=tk.Label(about_window,text="This is a voice / text operated personal assistant ")
-        code_button=customtkinter.CTkButton(about_window,text="View Source Code",command=self.open_code,bg_color="black",fg_color="white",corner_radius=5)
+        code_button=customtkinter.CTkButton(about_window,text="View Source Code",command=self.open_code,fg_color="black",corner_radius=5)
         about_label.pack(pady=10)
         code_label.pack(pady=5)
-        code_button.place(anchor="center")
+        code_button.place(anchor="center",rely=0.6,relx=0.5)
 
     def open_code(self):
         webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
