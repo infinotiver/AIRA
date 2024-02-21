@@ -48,7 +48,8 @@ class AssistantGUI:
             text="Connected",
             width=150,
             height=40,
-            corner_radius=20
+            corner_radius=20,
+            state="disabled"
         )
         connected_button.pack(pady=10)
         
@@ -68,8 +69,8 @@ class AssistantGUI:
         )
         self.record_button.place(relx=0.5, rely=0.5, anchor="center")
 
-        self.user_input_label = tk.Label(
-            main_frame, text="", font=("Helvetica", 12), foreground="black", background="gray"
+        self.user_input_label = customtkinter.CTkLabel(
+            main_frame, text="", font=("Helvetica", 12), text_color="black", bg_color="gray"
         )
         self.user_input_label.place(relx=1, rely=0, anchor="ne")
 
