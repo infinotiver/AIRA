@@ -271,10 +271,7 @@ if __name__ == "__main__":
 
         elif "youtube" in query:
             search_query = query.replace("youtube", "").strip()
-            url_search = quote(search_query)
-            webbrowser.open(
-                f"https://www.youtube.com/results?search_query={url_search}"
-            )
+            openapplications.Open_Applications.search_yt(search_query)
 
         elif "open google" in query:
             assistant.speak(openapplications.Open_Applications.google())
