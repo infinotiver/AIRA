@@ -29,7 +29,7 @@ import skills.definition as definition
 pygame.mixer.init()
 
 
-class MysticAssistant:
+class AiraAssistant:
     def __init__(self):
         # Initialize speech engine
         self.engine = pyttsx3.init("sapi5")
@@ -142,7 +142,7 @@ class MysticAssistant:
 
 
 if __name__ == "__main__":
-    assistant = MysticAssistant()
+    assistant = AiraAssistant()
     mode = assistant.mode_select()
     assistant.mystical_greet()
 
