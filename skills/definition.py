@@ -43,3 +43,4 @@ def speak_definition(word, definition_data):
         response += f"\nSynonyms for {word} include: {', '.join(synonyms)}."
     if antonyms:
         response += f"\nAntonyms for {word} include: {', '.join(antonyms)}."
+    return response

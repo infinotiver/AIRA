@@ -43,3 +43,9 @@ class OpenApplications:
         webbrowser.open(
             f"https://www.youtube.com/results?search_query={url_search}"
         )
+        return True
+    @staticmethod
+    def search_google(query):
+        url_search = quote(query)
+        webbrowser.open("https://www.google.com/search?q=" + "+".join(url_search))
+        return True
