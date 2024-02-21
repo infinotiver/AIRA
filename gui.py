@@ -51,7 +51,8 @@ class AssistantGUI:
             corner_radius=20,
             state="disabled",
             fg_color=("red","darkred"),
-            text_color="white"
+            text_color="white",
+            text_color_disabled="white"
         )
         connected_button.pack(pady=10)
         
