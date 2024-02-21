@@ -122,12 +122,12 @@ class AssistantGUI:
 
     def open_about(self):
         # Create an app info window
-        about_window = tk.Toplevel(self.root)
+        about_window = customtkinter.CTkToplevel(self.root)
         about_window.title("About")
         about_window.geometry("300x200")
 
-        about_label = tk.Label(about_window, text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver (Pranjal Prakarsh)`",font=("Arial",11))
-        code_label=tk.Label(about_window,text="This is a voice / text operated personal assistant ")
+        about_label = customtkinter.CTkLabel(about_window, text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver (Pranjal Prakarsh)`",font=("Arial",11))
+        code_label=customtkinter.CTkLabel(about_window,text="This is a voice / text operated personal assistant ")
         code_button=customtkinter.CTkButton(about_window,text="View Source Code",command=self.open_code,fg_color="black",corner_radius=5)
         about_label.pack(pady=10)
         code_label.pack(pady=5)
