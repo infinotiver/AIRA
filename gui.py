@@ -3,7 +3,7 @@ import customtkinter
 from time import strftime
 from threading import Timer
 import webbrowser
-
+import aira
 customtkinter.set_appearance_mode(
     "System"
 )  # Modes: "System" (standard), "Dark", "Light")
@@ -110,7 +110,16 @@ class AssistantGUI:
             corner_radius=10,
         )
         self.time_label.place(relx=0.99, rely=0.99, anchor="se")
-
+        """
+        self.radiobutton_frame = customtkinter.CTkFrame(main_frame)
+        self.radiobutton_frame.place()
+        self.label_radio_group = customtkinter.CTkLabel(master=self.radiobutton_frame, text="CTkRadioButton Group:")
+        self.label_radio_group.place()
+        self.radio_button_1 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, )
+        self.radio_button_1.place()
+        self.radio_button_2 = customtkinter.CTkRadioButton(master=self.radiobutton_frame)
+        self.radio_button_2.place()
+        """
     def update_time(self):
         # Update the time dynamically
 
@@ -119,6 +128,7 @@ class AssistantGUI:
         self.root.after(1000, self.update_time)
 
     def start_recording(self):
+        aira.process_command()
         # Simulating recording and recognizing user input
         user_input = "This is a sample user input."  # Replace this with the actual recognized input
         self.display_user_input(user_input)
