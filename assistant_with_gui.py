@@ -16,7 +16,7 @@ class AssistantWithGUI(AiraAssistant):
         super().__init__()
 
         self.root = tk.Tk()
-        self.app_gui = AssistantGUI(self.root, self.process_command)
+        self.app_gui = AssistantGUI(self.root, process_command_func=self.process_command)
 
     def process_command(self):
         mode = 1

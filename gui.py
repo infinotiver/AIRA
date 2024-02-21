@@ -4,6 +4,7 @@ from time import strftime
 from threading import Timer
 import webbrowser
 import aira
+
 customtkinter.set_appearance_mode(
     "System"
 )  # Modes: "System" (standard), "Dark", "Light")
@@ -11,14 +12,14 @@ customtkinter.set_default_color_theme("blue")
 
 
 class AssistantGUI:
-    def __init__(self, root):
+    def __init__(self, root,process_command_func):
         self.root = root
         self.root.title("Assistant GUI")
         self.root.geometry("800x600")
 
         self.create_sidebar()
         self.create_main_frame()
-
+        self.process_command_func = process_command_func
         # Start updating time
         self.update_time()
 
@@ -128,7 +129,8 @@ class AssistantGUI:
         self.root.after(1000, self.update_time)
 
     def start_recording(self):
-        aira.process_command()
+        self.process_command_func()
+        #aira.process_command()
         # Simulating recording and recognizing user input
         user_input = "This is a sample user input."  # Replace this with the actual recognized input
         self.display_user_input(user_input)
@@ -183,9 +185,10 @@ class AssistantGUI:
     def open_code(self):
         webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
 
-
+"""
 if __name__ == "__main__":
     root = customtkinter.CTk()
 
-    app = AssistantGUI(root)
-    root.mainloop()
+    app = AssistantGUI(root,process_command_func=self.process_command)
+   root.mainloop()
+"""
