@@ -70,7 +70,7 @@ class AssistantGUI:
         self.record_button.place(relx=0.5, rely=0.5, anchor="center")
 
         self.user_input_label = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 12), text_color="black", bg_color="gray"
+            main_frame, text="", font=("Helvetica", 15), text_color="black", bg_color="gray",corner_radius=10
         )
         self.user_input_label.place(relx=1, rely=0, anchor="ne")
 
