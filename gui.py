@@ -81,7 +81,7 @@ class AssistantGUI:
         self.output_text = customtkinter.CTkLabel(
             main_frame, text="", font=("Helvetica", 15), text_color="whitesmoke", fg_color="#313338", corner_radius=60
         )
-        self.output_text.place(relx=0, rely=0.1, anchor="nw")
+        self.output_text.place(relx=0.01, rely=0.1, anchor="nw")
         self.time_label = customtkinter.CTkLabel(
             main_frame, text="", font=("Helvetica", 12), fg_color="#333333", text_color="white", corner_radius=10
         )
