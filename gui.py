@@ -30,14 +30,9 @@ class AssistantGUI:
         logo=customtkinter.CTkLabel(
             sidebar_frame,
             text="AIRA",
-            font=("Spy Agency",50), # requires having Spy Agency Font
+            font=("Spy Agency",30), # requires having Spy Agency Font
         )
         logo.pack(pady=10)
-        assistant_name=customtkinter.CTkLabel(
-            sidebar_frame,
-            text="AI-powered Robotic Assistant"
-        )
-        assistant_name.pack()
         settings_button = customtkinter.CTkButton(
             sidebar_frame,
             text="Settings",
