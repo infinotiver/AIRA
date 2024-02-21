@@ -64,7 +64,9 @@ class MysticAssistant:
         )
 
     def mode_select(self):
-        self.speak(f"Please select an input mode for interacting with {self.assistant_name}")
+        self.speak(
+            f"Please select an input mode for interacting with {self.assistant_name}"
+        )
         self.speak("Press 't' for Text Input Mode\nPress 's' for Speech Input Mode ")
 
         while True:
@@ -137,6 +139,8 @@ class MysticAssistant:
             print("Type your command:")
             query = input("> ")
             return query
+
+
 if __name__ == "__main__":
     assistant = MysticAssistant()
     mode = assistant.mode_select()
@@ -158,8 +162,10 @@ if __name__ == "__main__":
         elif "youtube" in query:
             search_query = query.replace("youtube", "").strip()
             url_search = quote(search_query)
-            webbrowser.open(f"https://www.youtube.com/results?search_query={url_search}")
-            
+            webbrowser.open(
+                f"https://www.youtube.com/results?search_query={url_search}"
+            )
+
         elif "open google" in query:
             assistant.speak(openapplications.Open_Applications.google())
 
@@ -188,17 +194,18 @@ if __name__ == "__main__":
                 assistant.speak(word_data)
             except Exception as e:
                 assistant.speak(str(e))
-            
+
         elif "play music" in query or "play song" in query:
             assistant.speak("Here you go with music")
             music_dir = r"C:\Users\ADMIN\Desktop\Pranjal Prakarsh\[M] Media\Tunes"
-            music_thread = threading.Thread(target=assistant.play_music, args=(music_dir,))
+            music_thread = threading.Thread(
+                target=assistant.play_music, args=(music_dir,)
+            )
             music_thread.start()
 
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             assistant.speak(f"The time is {strTime}")
-
 
         elif "exit" in query:
             assistant.speak("Thanks for giving me your time")

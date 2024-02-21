@@ -3,8 +3,12 @@ import customtkinter
 from time import strftime
 from threading import Timer
 import webbrowser
-customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light")
+
+customtkinter.set_appearance_mode(
+    "System"
+)  # Modes: "System" (standard), "Dark", "Light")
 customtkinter.set_default_color_theme("blue")
+
 
 class AssistantGUI:
     def __init__(self, root):
@@ -20,10 +24,9 @@ class AssistantGUI:
 
     def create_sidebar(self):
         sidebar_frame = customtkinter.CTkFrame(
-            self.root, width=900, height=900, fg_color="#333333",corner_radius=0,
-            
+            self.root, width=900, height=900, fg_color="#333333", corner_radius=0,
         )
-        sidebar_frame.grid(row=0, column=0, sticky="ns",ipadx=10)
+        sidebar_frame.grid(row=0, column=0, sticky="ns", ipadx=10)
 
         settings_button = customtkinter.CTkButton(
             sidebar_frame,
@@ -44,24 +47,25 @@ class AssistantGUI:
             corner_radius=20,
         )
         about_button.pack(pady=10)
-        connected_button=customtkinter.CTkButton(
+        connected_button = customtkinter.CTkButton(
             sidebar_frame,
             text="Not Connected",
             width=150,
             height=40,
             corner_radius=20,
             state="disabled",
-            fg_color=("red","darkred"),
+            fg_color=("red", "darkred"),
             text_color="white",
-            text_color_disabled="white"
+            text_color_disabled="white",
         )
         connected_button.pack(pady=10)
-        
 
     def create_main_frame(self):
-        main_frame = customtkinter.CTkFrame(self.root, width=630, height=600,corner_radius=0)
+        main_frame = customtkinter.CTkFrame(
+            self.root, width=630, height=600, corner_radius=0
+        )
         main_frame.grid(row=0, column=1, sticky="nsew")
-        
+
         self.record_button = customtkinter.CTkButton(
             main_frame,
             text="Record",
@@ -69,27 +73,42 @@ class AssistantGUI:
             width=150,
             height=40,
             corner_radius=20,
-            font=("Arial", 25) 
+            font=("Arial", 25),
         )
         self.record_button.place(relx=0.5, rely=0.5, anchor="center")
 
         self.user_input_label = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 15), text_color="#c5c1c1", fg_color="#303136",corner_radius=60
+            main_frame,
+            text="",
+            font=("Helvetica", 15),
+            text_color="#c5c1c1",
+            fg_color="#303136",
+            corner_radius=60,
         )
         self.user_input_label.place(relx=0.981, rely=0.01, anchor="ne")
 
         self.output_text = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 15), text_color="whitesmoke", fg_color="#313338", corner_radius=60
+            main_frame,
+            text="",
+            font=("Helvetica", 15),
+            text_color="whitesmoke",
+            fg_color="#313338",
+            corner_radius=60,
         )
         self.output_text.place(relx=0.01, rely=0.1, anchor="nw")
         self.time_label = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 12), fg_color="#333333", text_color="white", corner_radius=10
+            main_frame,
+            text="",
+            font=("Helvetica", 12),
+            fg_color="#333333",
+            text_color="white",
+            corner_radius=10,
         )
         self.time_label.place(relx=0.99, rely=0.99, anchor="se")
 
     def update_time(self):
         # Update the time dynamically
-        
+
         time_string = strftime("%I:%M:%S %p")
         self.time_label.configure(text=time_string)
         self.root.after(1000, self.update_time)
@@ -127,15 +146,29 @@ class AssistantGUI:
         about_window.title("About")
         about_window.geometry("300x200")
 
-        about_label = customtkinter.CTkLabel(about_window, text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver",font=("Arial",14))
-        code_label=customtkinter.CTkLabel(about_window,text="This is a voice / text operated personal assistant ")
-        code_button=customtkinter.CTkButton(about_window,text="View Source Code",command=self.open_code,fg_color="black",corner_radius=100)
+        about_label = customtkinter.CTkLabel(
+            about_window,
+            text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver",
+            font=("Arial", 14),
+        )
+        code_label = customtkinter.CTkLabel(
+            about_window, text="This is a voice / text operated personal assistant "
+        )
+        code_button = customtkinter.CTkButton(
+            about_window,
+            text="View Source Code",
+            command=self.open_code,
+            fg_color="black",
+            corner_radius=100,
+        )
         about_label.pack(pady=10)
         code_label.pack(pady=5)
-        code_button.place(anchor="center",rely=0.6,relx=0.5)
+        code_button.place(anchor="center", rely=0.6, relx=0.5)
 
     def open_code(self):
         webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
+
+
 if __name__ == "__main__":
     root = customtkinter.CTk()
 

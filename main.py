@@ -14,7 +14,7 @@ from plyer import notification
 from urllib.parse import quote
 import keyboard
 import threading
-from geopy.geocoders import Nominatim 
+from geopy.geocoders import Nominatim
 import pywhatkit
 
 # (import) skills
@@ -26,6 +26,7 @@ import skills.fonts as fonts
 import skills.sendmail as sendmail
 import skills.definition as definition
 import pygame
+
 # Initialisation
 # calling the Nominatim tool
 loc = Nominatim(user_agent="GetLoc")
@@ -40,8 +41,6 @@ assistant_name = "Aira"  # Customize assistant name
 
 # Initialize pygame mixer
 pygame.mixer.init()
-
-
 
 
 def play_music(music_dir):
@@ -77,14 +76,15 @@ def mode_select():
             break
     return mode_var
 
+
 def search_wikipedia(query):
- 
+
     try:
         results = wikipedia.summary(query, sentences=5)
     except wikipedia.DisambiguationError as e:
         speak("There are multiple options. Please specify.")
         for i, option in enumerate(e.options[:10], start=1):
-            speak(f"{i}. {option}",1)
+            speak(f"{i}. {option}", 1)
         choice = int(input("Enter the number of your choice: "))
         engine.setProperty("rate", 200)
         results = wikipedia.summary(e.options[choice - 1], sentences=5)
@@ -105,7 +105,6 @@ def speak(audio):
     engine.runAndWait()
 
 
-
 def mystical_greet():
     """Greet the user with a mystical touch."""
 
@@ -115,7 +114,7 @@ def mystical_greet():
         12: "The midday sun shines brightly, casting its magic upon you.",
         18: "The moon whispers secrets in the evening sky, inviting you to dream.",
     }
-    
+
     speak(greetings.get(hour, "Greetings, user!"))
     notify("Aira", "Assistant woke up")
 
@@ -123,7 +122,6 @@ def mystical_greet():
 def mystical_farewell():
     """Bid farewell to the user with a mystical touch."""
     speak("May your journey be filled with wonder and enchantment. Farewell!")
-
 
 
 def get_news(category):
@@ -257,9 +255,6 @@ def takeCommand(mode):
     return query
 
 
-
-
-
 if __name__ == "__main__":
     clear = lambda: os.system("cls")
     clear()
@@ -272,7 +267,7 @@ if __name__ == "__main__":
         query = takeCommand(mode).lower()
 
         if "wikipedia" in query:
-            
+
             speak("Searching wikipedia")
             query = query.replace("wikipedia", "")
             search_wikipedia(query)
@@ -307,7 +302,7 @@ if __name__ == "__main__":
             query = query.replace("define", "")
             try:
                 word_data = definition.get_word_definition(query)
-                word_data=definition.speak_definition(query, word_data)
+                word_data = definition.speak_definition(query, word_data)
                 speak(word_data)
             except Exception as e:
                 speak(e)
@@ -388,9 +383,7 @@ if __name__ == "__main__":
             if "world" in user_preference:
                 get_news("world")
             elif "national" in user_preference:
-                get_news(
-                    "general"
-                )  
+                get_news("general")
             elif "headlines" in user_preference:
                 get_news("top-headlines")
             else:
@@ -399,7 +392,9 @@ if __name__ == "__main__":
             speak("locking the device")
             ctypes.windll.user32.LockWorkStation()
         elif "shutdown system" in query:
-            speak("Hold On a Sec ! Your system is on its way to shut down.\nExecuting command in three seconds.")
+            speak(
+                "Hold On a Sec ! Your system is on its way to shut down.\nExecuting command in three seconds."
+            )
             subprocess.call("shutdown /s")
         elif "don't listen" in query or "stop listening" in query:
             speak(
@@ -504,7 +499,7 @@ if __name__ == "__main__":
             if assistant_reply:
                 speak(assistant_reply)
             else:
-            
+
                 text = quote(query)
                 botname = quote(assistant_name)
                 url = f"https://api.popcat.xyz/chatbot?msg={text}&owner=Pranjal+Prakarsh&botname={botname}"

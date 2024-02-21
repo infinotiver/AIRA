@@ -1,5 +1,7 @@
 import smtplib
 import os
+
+
 def sendEmail(to, password, content):
     """Send an email using your credentials."""
     # Replace with your email and password
@@ -12,4 +14,4 @@ def sendEmail(to, password, content):
     server.login(email_id, email_password)
     server.sendmail(email_id, to, content)
     server.close()
-    return"Your message has been sent through the ether!"
+    return "Your message has been sent through the ether!"
