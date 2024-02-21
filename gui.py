@@ -74,9 +74,9 @@ class AssistantGUI:
         self.record_button.place(relx=0.5, rely=0.5, anchor="center")
 
         self.user_input_label = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 15), text_color="black", fg_color="gray",corner_radius=10
+            main_frame, text="", font=("Helvetica", 15), text_color="black", fg_color="#c6c2c2",corner_radius=10
         )
-        self.user_input_label.place(relx=1, rely=0, anchor="ne")
+        self.user_input_label.place(relx=0.981, rely=0.01, anchor="ne")
 
         self.output_text = customtkinter.CTkLabel(
             main_frame, text="", font=("Helvetica", 15), text_color="black", fg_color="#c5c1c1", corner_radius=10
@@ -85,7 +85,7 @@ class AssistantGUI:
         self.time_label = customtkinter.CTkLabel(
             main_frame, text="", font=("Helvetica", 12), fg_color="#333333", text_color="white", corner_radius=10
         )
-        self.time_label.place(relx=1, rely=1, anchor="se")
+        self.time_label.place(relx=0.99, rely=0.99, anchor="se")
 
     def update_time(self):
         # Update the time dynamically
