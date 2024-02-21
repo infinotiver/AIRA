@@ -19,10 +19,11 @@ class AssistantGUI:
         self.update_time()
 
     def create_sidebar(self):
-        sidebar_frame = tk.Frame(
-            self.root, width=200, height=600, bg="#333333", padx=10, pady=15
+        sidebar_frame = customtkinter.CTkFrame(
+            self.root, width=900, height=900, fg_color="#333333",corner_radius=0,
+            
         )
-        sidebar_frame.grid(row=0, column=0, sticky="ns")
+        sidebar_frame.grid(row=0, column=0, sticky="ns",ipadx=10)
 
         settings_button = customtkinter.CTkButton(
             sidebar_frame,
