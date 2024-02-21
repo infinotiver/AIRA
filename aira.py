@@ -278,7 +278,7 @@ if __name__ == "__main__":
 
         elif "search on google" in query:
             search_query = query.replace("search on google", "")
-            openapplications.Open_Applications.search_yt(search_google(search_query))
+            openapplications.Open_Applications.search_google(search_query)
             assistant.speak("Opening your browser for desired results")
 
         elif "open stackoverflow" in query:
