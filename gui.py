@@ -73,14 +73,14 @@ class AssistantGUI:
         )
         self.user_input_label.place(relx=1, rely=0, anchor="ne")
 
-        self.output_text = tk.Label(
-            main_frame, text="", font=("Helvetica", 12), foreground="black", background="white"
+        self.output_text = customtkinter.CTkLabel(
+            main_frame, text="", font=("Helvetica", 12), text_color="black", fg_color="white", corner_radius=10
         )
         self.output_text.place(relx=0, rely=1, anchor="sw")
         self.time_label = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 12), foreground="black",background="gray"
+            main_frame, text="", font=("Helvetica", 12), fg_color="#333333", text_color="white", corner_radius=10
         )
-        self.time_label.place(relx=1, rely=1, anchor="se",)
+        self.time_label.place(relx=1, rely=1, anchor="se")
 
     def update_time(self):
         # Update the time dynamically
@@ -103,10 +103,10 @@ class AssistantGUI:
         timer.start()
 
     def display_user_input(self, input_text):
-        self.user_input_label.config(text=f"User Input: {input_text}")
+        self.user_input_label.configure(text=f"User Input: {input_text}")
 
     def display_output(self, output_text):
-        self.output_text.config(text=f"Output: {output_text}")
+        self.output_text.configure(text=f"Output: {output_text}")
 
     def clear_output(self):
         self.output_text.config(text="")
