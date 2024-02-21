@@ -74,7 +74,7 @@ class AssistantGUI:
         self.user_input_label.place(relx=1, rely=0, anchor="ne")
 
         self.output_text = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 12), text_color="black", fg_color="white", corner_radius=10
+            main_frame, text="", font=("Helvetica", 15), text_color="black", fg_color="#c5c1c1", corner_radius=10
         )
         self.output_text.place(relx=0, rely=1, anchor="sw")
         self.time_label = customtkinter.CTkLabel(
@@ -109,8 +109,8 @@ class AssistantGUI:
         self.output_text.configure(text=f"Output: {output_text}")
 
     def clear_output(self):
-        self.output_text.config(text="")
-        self.user_input_label.config(text="")
+        self.output_text.configure(text="")
+        self.user_input_label.configure(text="")
 
     def open_settings(self):
         # Placeholder for opening settings
