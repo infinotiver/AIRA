@@ -162,6 +162,67 @@ class AiraAssistant:
         except Exception as e:
             print(str(e))
 
+    def get_fun_fact(self):
+        api_url = "https://uselessfacts.jsph.pl/random.json?language=en"
+        response = requests.get(api_url)
+        data = response.json()
+        fun_fact = data["text"]
+        self.speak(f"Here's a fun fact for you: {fun_fact}")
+
+
+    # Search for programming tutorials on YouTube
+    def search_programming_tutorials(self):
+        self.speak("What programming topic are you interested in?")
+        topic = self.takeCommand(mode)
+        webbrowser.open(
+            f"https://www.youtube.com/results?search_query={quote(topic)}+programming+tutorial"
+        )
+        self.speak(f"I found some programming tutorials on YouTube for {topic}. Check them out!")
+
+
+    def get_tech_news(self):
+        api_key = os.getenv("NEWS_API_KEY")
+        url = f"https://newsapi.org/v2/top-headlines?category=technology&apiKey={api_key}"
+        response = requests.get(url)
+        data = response.json()
+
+        if data["status"] == "ok" and data["articles"]:
+            articles = data["articles"][:5]
+            self.speak("Here are some top technology news headlines:")
+            for i, article in enumerate(articles, start=1):
+                self.speak(f"{i}. {article['title']}")
+                self.speak(article["description"])
+        else:
+            self.speak("Sorry, I couldn't fetch technology news at the moment.")
+
+
+    def send_whatsapp_message(self):
+        self.speak("Whom do you want to send a WhatsApp message?")
+        contact = self.takeCommand()
+        self.speak(f"What message would you like to send to {contact}?")
+        message = self.takeCommand()
+        self.speak("Sending the message.")
+        pywhatkit.sendwhatmsg(
+            contact,
+            message,
+            datetime.datetime.now().hour,
+            datetime.datetime.now().minute + 1,
+        )
+
+
+    def get_joke():
+        try:
+            api_url = f"https://api.popcat.xyz/joke"
+            response = requests.get(api_url)
+            data = response.json()
+            joke = data["joke"]
+        except Exception as e:
+            print(e)
+            joke = "What do you give a sick lemon? Lemonaid."
+        return joke
+
+
+
 
 
     def take_command(self, mode):
