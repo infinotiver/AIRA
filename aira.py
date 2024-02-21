@@ -17,6 +17,7 @@ import threading
 from geopy.geocoders import Nominatim
 import pywhatkit
 import pygame
+# (import) skills
 import skills.openapplications as openapplications
 import skills.findfiles as findfiles
 import skills.weather as weather
@@ -82,7 +83,25 @@ class AiraAssistant:
                 break
         return mode_var
 
-    # Add other methods as needed, keeping the functionality within the class
+    def search_wikipedia(self,query):
+
+        try:
+            results = wikipedia.summary(query, sentences=5)
+        except wikipedia.DisambiguationError as e:
+            self.speak("There are multiple options. Please specify.")
+            for i, option in enumerate(e.options[:10], start=1):
+                self.speak(f"{i}. {option}", 1)
+            choice = int(input("Enter the number of your choice: "))
+            self.engine.setProperty("rate", 200) # to reduce time wastage
+            results = wikipedia.summary(e.options[choice - 1], sentences=5)
+        except Exception as error:
+            print(error)
+
+        self.speak("According to Wikipedia")
+        if results:
+            self.speak(results)
+        else:
+            self.speak("No results were there")
 
     def speak(self, audio):
         """Print and speak the given audio message with a mystical touch."""

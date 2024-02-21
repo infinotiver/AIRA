@@ -16,6 +16,7 @@ import keyboard
 import threading
 from geopy.geocoders import Nominatim
 import pywhatkit
+import pygame
 
 # (import) skills
 import skills.openapplications as openapplications
@@ -25,7 +26,7 @@ import skills.chat as chat
 import skills.fonts as fonts
 import skills.sendmail as sendmail
 import skills.definition as definition
-import pygame
+
 
 # Initialisation
 # calling the Nominatim tool
