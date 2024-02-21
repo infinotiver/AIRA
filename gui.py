@@ -43,8 +43,15 @@ class AssistantGUI:
             corner_radius=20,
         )
         about_button.pack(pady=10)
-
-        # Add more buttons in the sidebar as needed
+        connected_button=customtkinter.CTkButton(
+            sidebar_frame,
+            text="Connected",
+            width=150,
+            height=40,
+            corner_radius=20
+        )
+        connected_button.pack(pady=10)
+        
 
     def create_main_frame(self):
         main_frame = tk.Frame(self.root, width=600, height=600, padx=10, pady=15)
@@ -70,14 +77,15 @@ class AssistantGUI:
             main_frame, text="", font=("Helvetica", 12), foreground="black", background="white"
         )
         self.output_text.place(relx=0, rely=1, anchor="sw")
-        self.time_label = tk.Label(
+        self.time_label = customtkinter.CTkLabel(
             main_frame, text="", font=("Helvetica", 12), foreground="black",background="gray"
         )
         self.time_label.place(relx=1, rely=1, anchor="se",)
 
     def update_time(self):
         # Update the time dynamically
-        time_string = strftime("%H:%M:%S %p")
+        
+        time_string = strftime("%I:%M:%S %p")
         self.time_label.configure(text=time_string)
         self.root.after(1000, self.update_time)
 
