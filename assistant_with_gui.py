@@ -21,7 +21,7 @@ class AssistantWithGUI(AiraAssistant):
     def process_command(self):
         mode = 1
         query = self.take_command(mode).lower()
-
+        self.app_gui.display_user_input(self,query)
 
         if "wikipedia" in query:
             assistant.speak("Searching wikipedia")
