@@ -74,12 +74,12 @@ class AssistantGUI:
         self.record_button.place(relx=0.5, rely=0.5, anchor="center")
 
         self.user_input_label = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 15), text_color="black", fg_color="#c6c2c2",corner_radius=10
+            main_frame, text="", font=("Helvetica", 15), text_color="black", fg_color="#c6c2c2",corner_radius=60
         )
         self.user_input_label.place(relx=0.981, rely=0.01, anchor="ne")
 
         self.output_text = customtkinter.CTkLabel(
-            main_frame, text="", font=("Helvetica", 15), text_color="black", fg_color="#c5c1c1", corner_radius=10
+            main_frame, text="", font=("Helvetica", 15), text_color="black", fg_color="#c5c1c1", corner_radius=60
         )
         self.output_text.place(relx=0, rely=0.1, anchor="nw")
         self.time_label = customtkinter.CTkLabel(
