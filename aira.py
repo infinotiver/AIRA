@@ -131,8 +131,38 @@ class AiraAssistant:
         )
         user_preference = self.take_command(mode).lower()
         return user_preference
+    def get_news(self,category):
+        try:
+            newsapi = os.environ.get("NEWSAPI")
 
-    # Add other methods as needed, keeping the functionality within the class
+            if category.lower() == "national":
+                url = f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi}"
+            elif category.lower() == "headlines":
+                url = f"https://newsapi.org/v2/top-headlines?apiKey={newsapi}"
+            else:
+                url = f"https://newsapi.org/v2/everything?q={category}&apiKey={newsapi}"
+            try:
+                response = requests.get(url)
+            except:
+                return self.speak("Looks like there is no internet connection")
+            data = response.json()
+
+            if data["status"] == "ok":
+                articles = data["articles"][:5]  # Display only the top 5 news items
+                if articles:
+                    self.speak(f"Here are some top {category} news:")
+                    print(f"=============== {category.upper()} ===============\n")
+                    for i, item in enumerate(articles, start=1):
+                        self.speak(f"{i}. {item['title']}\n")
+                        self.speak(f"{item['description']}\n")
+                else:
+                    self.speak(f"Sorry, no {category} news available at the moment.")
+            else:
+                self.speak("Sorry, there was an issue fetching news. Please try again later.")
+        except Exception as e:
+            print(str(e))
+
+
 
     def take_command(self, mode):
         if mode == 1:
