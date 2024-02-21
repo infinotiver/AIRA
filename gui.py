@@ -59,7 +59,7 @@ class AssistantGUI:
         
 
     def create_main_frame(self):
-        main_frame = tk.Frame(self.root, width=600, height=600, padx=10, pady=15)
+        main_frame = customtkinter.CTkFrame(self.root, width=630, height=600,corner_radius=0)
         main_frame.grid(row=0, column=1, sticky="nsew")
         
         self.record_button = customtkinter.CTkButton(
@@ -137,7 +137,7 @@ class AssistantGUI:
     def open_code(self):
         webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = customtkinter.CTk()
 
     app = AssistantGUI(root)
     root.mainloop()
