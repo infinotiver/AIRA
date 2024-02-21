@@ -45,11 +45,13 @@ class AssistantGUI:
         about_button.pack(pady=10)
         connected_button=customtkinter.CTkButton(
             sidebar_frame,
-            text="Connected",
+            text="Not Connected",
             width=150,
             height=40,
             corner_radius=20,
-            state="disabled"
+            state="disabled",
+            fg_color=("red","darkred"),
+            text_color="white"
         )
         connected_button.pack(pady=10)
         
