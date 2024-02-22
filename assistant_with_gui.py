@@ -1,7 +1,7 @@
 import tkinter as tk
 from threading import Thread
 from time import strftime
-from gui import AssistantGUI  # Assuming you have the AssistantGUI class in a separate file
+from gui import AssistantGUI 
 from aira import *
 # (import) skills
 import skills.openapplications as openapplications
@@ -11,6 +11,7 @@ import skills.chat as chat
 import skills.fonts as fonts
 import skills.sendmail as sendmail
 import skills.definition as definition
+
 class AssistantWithGUI(AiraAssistant):
     def __init__(self):
         super().__init__()
@@ -20,67 +21,66 @@ class AssistantWithGUI(AiraAssistant):
 
     def process_command(self):
         mode = 1
-        query = self.take_command(mode).lower()
-        self.app_gui.display_user_input(self,query)
+        #query = self.take_command(mode).lower()
+        query="tell the time"
+        self.app_gui.display_user_input(query)
 
         if "wikipedia" in query:
-            assistant.speak("Searching wikipedia")
+            self.speak("Searching wikipedia")
             query = query.replace("wikipedia", "")
-            assistant.search_wikipedia(query)
+            self.search_wikipedia(query)
 
         elif "open youtube" in query:
-            assistant.speak(openapplications.Open_Applications.youtube())
+            self.speak(openapplications.Open_Applications.youtube())
 
         elif "youtube" in query:
             search_query = query.replace("youtube", "").strip()
             openapplications.Open_Applications.search_yt(search_query)
 
         elif "open google" in query:
-            assistant.speak(openapplications.Open_Applications.google())
+            self.speak(openapplications.Open_Applications.google())
 
         elif "search on google" in query:
             search_query = query.replace("search on google", "")
             openapplications.Open_Applications.search_google(search_query)
-            assistant.speak("Opening your browser for desired results")
+            self.speak("Opening your browser for desired results")
 
         elif "open stackoverflow" in query:
-            assistant.speak(openapplications.Open_Applications.stackoverflow())
+            self.speak(openapplications.Open_Applications.stackoverflow())
             webbrowser.open("stackoverflow.com")
 
         elif "open aisc" in query:
-            assistant.speak(openapplications.Open_Applications.aisc())
+            self.speak(openapplications.Open_Applications.aisc())
             webbrowser.open("aistudent.community")
 
         elif "open forum" in query or "open aisc forum" in query:
-            assistant.speak(openapplications.Open_Applications.aisc_forum())
+            self.speak(openapplications.Open_Applications.aisc_forum())
 
         elif "define" in query:
             query = query.replace("define", "")
             try:
                 word_data = definition.get_word_definition(query)
                 word_data = definition.speak_definition(query, word_data)
-                assistant.speak(word_data)
+                self.speak(word_data)
             except Exception as e:
-                assistant.speak(str(e))
+                self.speak(str(e))
 
         elif "play music" in query or "play song" in query:
-            assistant.speak("Here you go with music")
+            self.speak("Here you go with music")
             music_dir = r"C:\Users\ADMIN\Desktop\Pranjal Prakarsh\[M] Media\Tunes"
-            music_thread = threading.Thread(
-                target=assistant.play_music, args=(music_dir,)
-            )
+            music_thread = Thread(target=self.play_music, args=(music_dir,))
             music_thread.start()
 
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            assistant.speak(f"The time is {strTime}")
+            self.speak(f"The time is {strTime}")
 
         elif "exit" in query:
-            assistant.speak("Thanks for giving me your time")
-            assistant.mystical_farewell()
+            self.speak("Thanks for giving me your time")
+            self.mystical_farewell()
 
     def start_gui(self):
-        self.app_gui.start_gui(process_command)
+        self.app_gui.start_gui(self.process_command)
 
 if __name__ == "__main__":
     assistant_with_gui = AssistantWithGUI()
