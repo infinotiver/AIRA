@@ -1,36 +1,33 @@
 import tkinter as tk
 import customtkinter
 from time import strftime
-from threading import Timer
 import webbrowser
 
-
-customtkinter.set_appearance_mode(
-    "System"
-)  # Modes: "System" (standard), "Dark", "Light")
+customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
 
 class AssistantGUI:
-    root_instance = None  # Add this line
+    root_instance = None
 
-    def __init__(self, root, process_command_func):
-        self.root = root
+    def __init__(self, process_command_func):
+        self.root = customtkinter.CTk()
         self.root.title("Assistant GUI")
         self.root.geometry("800x600")
         self.create_sidebar()
         self.create_main_frame()
         self.process_command_func = process_command_func
         self.update_time()
+
     def create_sidebar(self):
         sidebar_frame = customtkinter.CTkFrame(
             self.root, width=900, height=900, fg_color="#333333", corner_radius=0,
         )
         sidebar_frame.grid(row=0, column=0, sticky="ns", ipadx=10)
-        logo=customtkinter.CTkLabel(
+        logo = customtkinter.CTkLabel(
             sidebar_frame,
             text="AIRA",
-            font=("Spy Agency",30), # requires having Spy Agency Font
+            font=("Spy Agency", 30),
         )
         logo.pack(pady=10)
         settings_button = customtkinter.CTkButton(
@@ -53,27 +50,6 @@ class AssistantGUI:
             corner_radius=100,
         )
         about_button.pack(pady=10)
-
-        connected_button = customtkinter.CTkButton(
-            sidebar_frame,
-            text="Not Connected",
-            width=150,
-            height=40,
-            corner_radius=100,
-            state="disabled",
-            fg_color=("red", "darkred"),
-            text_color="white",
-            text_color_disabled="white",
-        )
-        connected_button.pack(pady=10)
-        label_radio_group = customtkinter.CTkLabel(master=sidebar_frame, text="Input Type",corner_radius=10,font=("Arial",15))
-        label_radio_group.pack()
-        self.radio_var = tk.IntVar(value=0)
-        radio_button_1 = customtkinter.CTkRadioButton(master=sidebar_frame,text="Voice Input", variable=self.radio_var, value=0)
-        radio_button_1.pack(pady=10)
-        radio_button_2 = customtkinter.CTkRadioButton(master=sidebar_frame,text="Text Input", variable=self.radio_var, value=1)    
-        radio_button_2.pack(pady=10)
-
 
     def create_main_frame(self):
         main_frame = customtkinter.CTkFrame(
@@ -120,56 +96,31 @@ class AssistantGUI:
             corner_radius=10,
         )
         self.time_label.place(relx=0.99, rely=0.99, anchor="se")
-        """
-        sidebar_frame = customtkinter.CTkFrame(main_frame)
-        sidebar_frame.place()
-        self.label_radio_group = customtkinter.CTkLabel(master=sidebar_frame, text="CTkRadioButton Group:")
-        self.label_radio_group.place()
-        self.radio_button_1 = customtkinter.CTkRadioButton(master=sidebar_frame, )
-        self.radio_button_1.place()
-        self.radio_button_2 = customtkinter.CTkRadioButton(master=sidebar_frame)
-        self.radio_button_2.place()
-        """
+
     def update_time(self):
-        # Update the time dynamically
-        
         time_string = strftime("%I:%M:%S %p")
         self.time_label.configure(text=time_string)
         self.root.after(1000, self.update_time)
 
-
     def start_recording(self):
         if self.process_command_func:
             self.process_command_func()
-        #aira.process_command()
-        # Simulating recording and recognizing user input
-        user_input = "This is a sample user input."  # Replace this with the actual recognized input
+        user_input = "This is a sample user input."
         self.display_user_input(user_input)
-
-        # Add your logic to convert audio input to text and display the result
-        output_text = "This is the recognized text from audio input."  # Replace this with the actual result
+        output_text = "This is the recognized text from audio input."
         self.display_output(output_text)
 
-        # Schedule to clear the output after 10 seconds
-        timer = Timer(10, self.clear_output)
-        timer.start()
-
     def display_user_input(self, input_text):
-        self.user_input_label.configure(text=f"User Input: {input_text}")
+        self.user_input_label.configure(
+            text=f"User Input: {input_text}")
 
     def display_output(self, output_text):
         self.output_text.configure(text=f"Output: {output_text}")
 
-    def clear_output(self):
-        self.output_text.configure(text="")
-        self.user_input_label.configure(text="")
-
     def open_settings(self):
-        # Placeholder for opening settings
         print("Opening settings...")
 
     def open_about(self):
-        # Create an app info window
         about_window = customtkinter.CTkToplevel(self.root)
         about_window.title("About")
         about_window.geometry("300x200")
@@ -194,10 +145,8 @@ class AssistantGUI:
         code_button.place(anchor="center", rely=0.6, relx=0.5)
 
     def open_code(self):
-        webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
-    def start_gui(self, process_command_func):
-        if not AssistantGUI.root_instance:
-            AssistantGUI.root_instance = customtkinter.CTk()
-        self.app = AssistantGUI(AssistantGUI.root_instance, process_command_func)
-        AssistantGUI.root_instance.mainloop()
+        webbrowser.open_new(
+            "https://github.com/infinotiver/Aira-Voice-Assistant")
 
+    def start_gui(self):
+        self.root.mainloop()

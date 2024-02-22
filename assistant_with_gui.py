@@ -13,18 +13,11 @@ import skills.fonts as fonts
 import skills.sendmail as sendmail
 import skills.definition as definition
 
-class AssistantWithGUI(AiraAssistant):
+
+
+class AssistantWithGUI:
     def __init__(self):
-        super().__init__()
-
-        # Create an instance of customtkinter.CTk
-        self.root_instance = customtkinter.CTk()
-
-        # Set the root_instance in AssistantGUI
-        AssistantGUI.root_instance = self.root_instance
-
-        # Create AssistantGUI instance
-        self.app_gui = AssistantGUI(self.root_instance, process_command_func=self.process_command)
+        self.app_gui = None
 
 
     def process_command(self):
@@ -86,11 +79,13 @@ class AssistantWithGUI(AiraAssistant):
         elif "exit" in query:
             self.speak("Thanks for giving me your time")
             self.mystical_farewell()
-
     def start_gui(self):
-        # Start Tkinter main loop in a separate thread
-        gui_thread = Thread(target=self.app_gui.start_gui, args=(self.process_command,))
-        gui_thread.start()
+        if not self.app_gui:
+            self.app_gui = AssistantGUI(process_command_func=self.process_command)
+            self.app_gui.start_gui()
+        else:
+            print("GUI already running.")
+
 
 if __name__ == "__main__":
     assistant_with_gui = AssistantWithGUI()
