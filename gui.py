@@ -200,9 +200,3 @@ class AssistantGUI:
         root = customtkinter.CTk()
         app = AssistantGUI(root,process_command_func)
         root.mainloop()
-
-if __name__ == "__main__":
-    root = customtkinter.CTk()
-
-    app = AssistantGUI(root,process_command_func=None)
-    root.mainloop()
