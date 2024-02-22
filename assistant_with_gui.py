@@ -1,4 +1,5 @@
 import tkinter as tk
+import customtkinter
 from threading import Thread
 from time import strftime
 from gui import AssistantGUI 
@@ -16,8 +17,15 @@ class AssistantWithGUI(AiraAssistant):
     def __init__(self):
         super().__init__()
 
-        self.root = tk.Tk()
-        self.app_gui = AssistantGUI(self.root, process_command_func=self.process_command)
+        # Create an instance of customtkinter.CTk
+        self.root_instance = customtkinter.CTk()
+
+        # Set the root_instance in AssistantGUI
+        AssistantGUI.root_instance = self.root_instance
+
+        # Create AssistantGUI instance
+        self.app_gui = AssistantGUI(self.root_instance, process_command_func=self.process_command)
+
 
     def process_command(self):
         mode = 1
@@ -80,7 +88,9 @@ class AssistantWithGUI(AiraAssistant):
             self.mystical_farewell()
 
     def start_gui(self):
-        self.app_gui.start_gui(self.process_command)
+        # Start Tkinter main loop in a separate thread
+        gui_thread = Thread(target=self.app_gui.start_gui, args=(self.process_command,))
+        gui_thread.start()
 
 if __name__ == "__main__":
     assistant_with_gui = AssistantWithGUI()
