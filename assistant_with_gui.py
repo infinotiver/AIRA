@@ -80,7 +80,7 @@ class AssistantWithGUI(AiraAssistant):
             assistant.mystical_farewell()
 
     def start_gui(self):
-        self.app_gui.start()
+        self.app_gui.start_gui(process_command)
 
 if __name__ == "__main__":
     assistant_with_gui = AssistantWithGUI()

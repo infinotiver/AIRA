@@ -40,7 +40,8 @@ class AssistantGUI:
             command=self.open_settings,
             width=150,
             height=40,
-            corner_radius=20,
+            corner_radius=100,
+            border_color="black"
         )
         settings_button.pack(pady=(100, 10))
 
@@ -50,7 +51,7 @@ class AssistantGUI:
             command=self.open_about,
             width=150,
             height=40,
-            corner_radius=20,
+            corner_radius=100,
         )
         about_button.pack(pady=10)
 
@@ -59,19 +60,20 @@ class AssistantGUI:
             text="Not Connected",
             width=150,
             height=40,
-            corner_radius=20,
+            corner_radius=100,
             state="disabled",
             fg_color=("red", "darkred"),
             text_color="white",
             text_color_disabled="white",
         )
         connected_button.pack(pady=10)
-        label_radio_group = customtkinter.CTkLabel(master=sidebar_frame, text="Input Type")
-        label_radio_group.place()
-        radio_button_1 = customtkinter.CTkRadioButton(master=sidebar_frame)
-        radio_button_1.pack()
-        radio_button_2 = customtkinter.CTkRadioButton(master=sidebar_frame)    
-        radio_button_2.pack()
+        label_radio_group = customtkinter.CTkLabel(master=sidebar_frame, text="Input Type",corner_radius=10,font=("Arial",15))
+        label_radio_group.pack()
+        self.radio_var = tk.IntVar(value=0)
+        radio_button_1 = customtkinter.CTkRadioButton(master=sidebar_frame,text="Voice Input", variable=self.radio_var, value=0)
+        radio_button_1.pack(pady=10)
+        radio_button_2 = customtkinter.CTkRadioButton(master=sidebar_frame,text="Text Input", variable=self.radio_var, value=1)    
+        radio_button_2.pack(pady=10)
 
 
     def create_main_frame(self):
@@ -194,10 +196,13 @@ class AssistantGUI:
     def open_code(self):
         webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
 
+    def start_gui(self,process_command_func):
+        root = customtkinter.CTk()
+        app = AssistantGUI(root,process_command_func)
+        root.mainloop()
 
 if __name__ == "__main__":
     root = customtkinter.CTk()
 
     app = AssistantGUI(root,process_command_func=None)
     root.mainloop()
-

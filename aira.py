@@ -15,7 +15,6 @@ from urllib.parse import quote
 import keyboard
 import threading
 from geopy.geocoders import Nominatim
-import pywhatkit
 import pygame
 # (import) skills
 import skills.openapplications as openapplications
@@ -202,13 +201,15 @@ class AiraAssistant:
         self.speak(f"What message would you like to send to {contact}?")
         message = self.takeCommand()
         self.speak("Sending the message.")
+        return "W.I.P"
+        """
         pywhatkit.sendwhatmsg(
             contact,
             message,
             datetime.datetime.now().hour,
             datetime.datetime.now().minute + 1,
         )
-
+        """
 
     def get_joke():
         try:
