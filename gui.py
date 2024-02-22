@@ -12,17 +12,16 @@ customtkinter.set_default_color_theme("blue")
 
 
 class AssistantGUI:
-    def __init__(self, root,process_command_func):
+    root_instance = None  # Add this line
+
+    def __init__(self, root, process_command_func):
         self.root = root
         self.root.title("Assistant GUI")
         self.root.geometry("800x600")
-
         self.create_sidebar()
         self.create_main_frame()
         self.process_command_func = process_command_func
-        # Start updating time
         self.update_time()
-
     def create_sidebar(self):
         sidebar_frame = customtkinter.CTkFrame(
             self.root, width=900, height=900, fg_color="#333333", corner_radius=0,
@@ -133,10 +132,11 @@ class AssistantGUI:
         """
     def update_time(self):
         # Update the time dynamically
-
+        
         time_string = strftime("%I:%M:%S %p")
         self.time_label.configure(text=time_string)
         self.root.after(1000, self.update_time)
+
 
     def start_recording(self):
         if self.process_command_func:
@@ -195,8 +195,9 @@ class AssistantGUI:
 
     def open_code(self):
         webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
+    def start_gui(self, process_command_func):
+        if not AssistantGUI.root_instance:
+            AssistantGUI.root_instance = customtkinter.CTk()
+        self.app = AssistantGUI(AssistantGUI.root_instance, process_command_func)
+        AssistantGUI.root_instance.mainloop()
 
-    def start_gui(self,process_command_func):
-        root = customtkinter.CTk()
-        app = AssistantGUI(root,process_command_func)
-        root.mainloop()
