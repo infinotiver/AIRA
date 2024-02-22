@@ -3,7 +3,7 @@ import customtkinter
 from time import strftime
 from threading import Timer
 import webbrowser
-import aira
+
 
 customtkinter.set_appearance_mode(
     "System"
@@ -53,6 +53,7 @@ class AssistantGUI:
             corner_radius=20,
         )
         about_button.pack(pady=10)
+
         connected_button = customtkinter.CTkButton(
             sidebar_frame,
             text="Not Connected",
@@ -65,6 +66,13 @@ class AssistantGUI:
             text_color_disabled="white",
         )
         connected_button.pack(pady=10)
+        label_radio_group = customtkinter.CTkLabel(master=sidebar_frame, text="Input Type")
+        label_radio_group.place()
+        radio_button_1 = customtkinter.CTkRadioButton(master=sidebar_frame)
+        radio_button_1.pack()
+        radio_button_2 = customtkinter.CTkRadioButton(master=sidebar_frame)    
+        radio_button_2.pack()
+
 
     def create_main_frame(self):
         main_frame = customtkinter.CTkFrame(
@@ -74,7 +82,7 @@ class AssistantGUI:
 
         self.record_button = customtkinter.CTkButton(
             main_frame,
-            text="Record",
+            text="Give Command",
             command=self.start_recording,
             width=150,
             height=40,
@@ -85,7 +93,7 @@ class AssistantGUI:
 
         self.user_input_label = customtkinter.CTkLabel(
             main_frame,
-            text="",
+            text="Press the command button...",
             font=("Helvetica", 15),
             text_color="#c5c1c1",
             fg_color="#303136",
@@ -112,13 +120,13 @@ class AssistantGUI:
         )
         self.time_label.place(relx=0.99, rely=0.99, anchor="se")
         """
-        self.radiobutton_frame = customtkinter.CTkFrame(main_frame)
-        self.radiobutton_frame.place()
-        self.label_radio_group = customtkinter.CTkLabel(master=self.radiobutton_frame, text="CTkRadioButton Group:")
+        sidebar_frame = customtkinter.CTkFrame(main_frame)
+        sidebar_frame.place()
+        self.label_radio_group = customtkinter.CTkLabel(master=sidebar_frame, text="CTkRadioButton Group:")
         self.label_radio_group.place()
-        self.radio_button_1 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, )
+        self.radio_button_1 = customtkinter.CTkRadioButton(master=sidebar_frame, )
         self.radio_button_1.place()
-        self.radio_button_2 = customtkinter.CTkRadioButton(master=self.radiobutton_frame)
+        self.radio_button_2 = customtkinter.CTkRadioButton(master=sidebar_frame)
         self.radio_button_2.place()
         """
     def update_time(self):
@@ -129,7 +137,8 @@ class AssistantGUI:
         self.root.after(1000, self.update_time)
 
     def start_recording(self):
-        self.process_command_func()
+        if self.process_command_func:
+            self.process_command_func()
         #aira.process_command()
         # Simulating recording and recognizing user input
         user_input = "This is a sample user input."  # Replace this with the actual recognized input
@@ -185,10 +194,10 @@ class AssistantGUI:
     def open_code(self):
         webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
 
-"""
+
 if __name__ == "__main__":
     root = customtkinter.CTk()
 
-    app = AssistantGUI(root,process_command_func=self.process_command)
-   root.mainloop()
-"""
+    app = AssistantGUI(root,process_command_func=None)
+    root.mainloop()
+
