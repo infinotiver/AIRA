@@ -17,13 +17,15 @@ import skills.definition as definition
 
 class AssistantWithGUI(AiraAssistant):
     def __init__(self):
+        super().__init__()  # Initialize the Aira class
+
         self.app_gui = None
 
 
     def process_command(self):
         mode = 1
-        #query = self.take_command(mode).lower()
-        query="tell the time"
+        query = self.take_command(mode).lower()
+        #query="tell the time"
         self.app_gui.display_user_input(query)
 
         if "wikipedia" in query:
@@ -74,7 +76,9 @@ class AssistantWithGUI(AiraAssistant):
 
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            self.speak(f"The time is {strTime}")
+            response=f"The time is {strTime}"
+            self.speak(response)
+            self.app_gui.display_output(response)
 
         elif "exit" in query:
             self.speak("Thanks for giving me your time")

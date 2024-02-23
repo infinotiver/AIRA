@@ -35,7 +35,7 @@ class AssistantGUI:
             text="Settings",
             command=self.open_settings,
             width=150,
-            height=40,
+            height=30,
             corner_radius=100,
             border_color="black"
         )
@@ -46,11 +46,17 @@ class AssistantGUI:
             text="About",
             command=self.open_about,
             width=150,
-            height=40,
+            height=30,
             corner_radius=100,
         )
         about_button.pack(pady=10)
-
+        optionmenu_var = customtkinter.StringVar(value="Voice Input")
+        optionmenu = customtkinter.CTkOptionMenu(
+            sidebar_frame,
+            values=["Voice Input", "Text Input"],
+            #command=optionmenu_callback,
+            variable=optionmenu_var)
+        optionmenu.pack()
     def create_main_frame(self):
         main_frame = customtkinter.CTkFrame(
             self.root, width=630, height=600, corner_radius=0
@@ -97,18 +103,16 @@ class AssistantGUI:
         )
         self.time_label.place(relx=0.99, rely=0.99, anchor="se")
 
+
     def update_time(self):
-        time_string = strftime("%I:%M:%S %p")
+        time_string = strftime("%I:%M %p")
         self.time_label.configure(text=time_string)
-        self.root.after(1000, self.update_time)
+        self.root.after(60000, self.update_time)
 
     def start_recording(self):
         if self.process_command_func:
             self.process_command_func()
-        user_input = "This is a sample user input."
-        self.display_user_input(user_input)
-        output_text = "This is the recognized text from audio input."
-        self.display_output(output_text)
+
 
     def display_user_input(self, input_text):
         self.user_input_label.configure(
