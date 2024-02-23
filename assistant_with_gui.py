@@ -15,7 +15,7 @@ import skills.definition as definition
 
 
 
-class AssistantWithGUI:
+class AssistantWithGUI(AiraAssistant):
     def __init__(self):
         self.app_gui = None
 
