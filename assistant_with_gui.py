@@ -13,24 +13,19 @@ import skills.fonts as fonts
 import skills.sendmail as sendmail
 import skills.definition as definition
 
+
+
 class AssistantWithGUI(AiraAssistant):
     def __init__(self):
-        super().__init__()
+        super().__init__()  # Initialize the Aira class
 
-        # Create an instance of customtkinter.CTk
-        self.root_instance = customtkinter.CTk()
-
-        # Set the root_instance in AssistantGUI
-        AssistantGUI.root_instance = self.root_instance
-
-        # Create AssistantGUI instance
-        self.app_gui = AssistantGUI(self.root_instance, process_command_func=self.process_command)
+        self.app_gui = None
 
 
-    def process_command(self):
+    def process_command(self,query):
         mode = 1
-        #query = self.take_command(mode).lower()
-        query="tell the time"
+        query = query.lower()
+        #query="tell the time"
         self.app_gui.display_user_input(query)
 
         if "wikipedia" in query:
@@ -81,16 +76,26 @@ class AssistantWithGUI(AiraAssistant):
 
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            self.speak(f"The time is {strTime}")
+            response=f"The time is {strTime}"
+            self.app_gui.display_output(response)
+            self.speak(response)
+            
 
         elif "exit" in query:
             self.speak("Thanks for giving me your time")
             self.mystical_farewell()
-
+        else:
+            response="I don't understand that yet"
+            self.app_gui.display_output(response)
+            self.speak(response)
+            
     def start_gui(self):
-        # Start Tkinter main loop in a separate thread
-        gui_thread = Thread(target=self.app_gui.start_gui, args=(self.process_command,))
-        gui_thread.start()
+        if not self.app_gui:
+            self.app_gui = AssistantGUI(process_command_func=self.process_command)
+            self.app_gui.start_gui()
+        else:
+            print("GUI already running.")
+
 
 if __name__ == "__main__":
     assistant_with_gui = AssistantWithGUI()
