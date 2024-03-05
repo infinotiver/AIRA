@@ -22,9 +22,9 @@ class AssistantWithGUI(AiraAssistant):
         self.app_gui = None
 
 
-    def process_command(self):
+    def process_command(self,query):
         mode = 1
-        query = self.take_command(mode).lower()
+        query = query.lower()
         #query="tell the time"
         self.app_gui.display_user_input(query)
 
@@ -77,12 +77,18 @@ class AssistantWithGUI(AiraAssistant):
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             response=f"The time is {strTime}"
-            self.speak(response)
             self.app_gui.display_output(response)
+            self.speak(response)
+            
 
         elif "exit" in query:
             self.speak("Thanks for giving me your time")
             self.mystical_farewell()
+        else:
+            response="I don't understand that yet"
+            self.app_gui.display_output(response)
+            self.speak(response)
+            
     def start_gui(self):
         if not self.app_gui:
             self.app_gui = AssistantGUI(process_command_func=self.process_command)

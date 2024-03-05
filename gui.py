@@ -63,26 +63,31 @@ class AssistantGUI:
         )
         main_frame.grid(row=0, column=1, sticky="nsew")
 
-        self.record_button = customtkinter.CTkButton(
+    def create_main_frame(self):
+        main_frame = customtkinter.CTkFrame(
+            self.root, width=630, height=600, corner_radius=0
+        )
+        main_frame.grid(row=0, column=1, sticky="nsew")
+
+        self.user_input_entry = customtkinter.CTkEntry(
             main_frame,
-            text="Give Command",
-            command=self.start_recording,
-            width=150,
+            width=200,
+            height=40,
+            corner_radius=10,
+            font=("Arial", 15),
+        )
+        self.user_input_entry.place(relx=0.3, rely=0.5, anchor="center")
+
+        self.ok_button = customtkinter.CTkButton(
+            main_frame,
+            text="OK",
+            command=self.handle_ok_click,
+            width=100,
             height=40,
             corner_radius=20,
-            font=("Arial", 25),
+            font=("Arial", 15),
         )
-        self.record_button.place(relx=0.5, rely=0.5, anchor="center")
-
-        self.user_input_label = customtkinter.CTkLabel(
-            main_frame,
-            text="Press the command button...",
-            font=("Helvetica", 15),
-            text_color="#c5c1c1",
-            fg_color="#303136",
-            corner_radius=60,
-        )
-        self.user_input_label.place(relx=0.981, rely=0.01, anchor="ne")
+        self.ok_button.place(relx=0.7, rely=0.5, anchor="center")
 
         self.output_text = customtkinter.CTkLabel(
             main_frame,
@@ -102,16 +107,27 @@ class AssistantGUI:
             corner_radius=10,
         )
         self.time_label.place(relx=0.99, rely=0.99, anchor="se")
-
+        self.user_input_label = customtkinter.CTkLabel(
+            main_frame,
+            text="Press the command button...",
+            font=("Helvetica", 15),
+            text_color="#c5c1c1",
+            fg_color="#303136",
+            corner_radius=60,
+        )
+        self.user_input_label.place(relx=0.981, rely=0.01, anchor="ne")
 
     def update_time(self):
         time_string = strftime("%I:%M %p")
         self.time_label.configure(text=time_string)
         self.root.after(60000, self.update_time)
+    def handle_ok_click(self):
+        # Get user input from the entry widget
+        user_input = self.user_input_entry.get()
+        print(user_input)
+        self.user_input_entry.delete(0, customtkinter.END)  # Clear the entry after use
+        self.process_command_func(query=user_input)
 
-    def start_recording(self):
-        if self.process_command_func:
-            self.process_command_func()
 
 
     def display_user_input(self, input_text):
