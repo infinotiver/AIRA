@@ -23,7 +23,6 @@ class AssistantWithGUI(AiraAssistant):
 
 
     def process_command(self,query):
-        mode = 1
         query = query.lower()
         #query="tell the time"
         self.app_gui.display_user_input(query)

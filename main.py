@@ -147,7 +147,8 @@ def get_news(category):
                 speak(f"Here are some top {category} news:")
                 print(f"=============== {category.upper()} ===============\n")
                 for i, item in enumerate(articles, start=1):
-                    speak(f"{i}. {item['title']}\n")
+                    title=item['title']
+                    speak(f"{i}. {title}\n")
                     speak(f"{item['description']}\n")
             else:
                 speak(f"Sorry, no {category} news available at the moment.")
