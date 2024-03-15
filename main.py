@@ -273,10 +273,8 @@ if __name__ == "__main__":
             speak("Searching wikipedia")
             query = query.replace("wikipedia", "")
             search_wikipedia(query)
-
         elif "open youtube" in query:
             speak(openapplications.Open_Applications.youtube())
-
         elif "youtube" in query:
 
             search_query = query.replace("youtube", "").strip()
@@ -299,7 +297,6 @@ if __name__ == "__main__":
             webbrowser.open("aistudent.community")
         elif "open forum" in query or "open aisc forum" in query:
             speak(openapplications.Open_Applications.aisc_forum())
-
         elif "define" in query:
             query = query.replace("define", "")
             try:
@@ -316,12 +313,10 @@ if __name__ == "__main__":
             # Create a new thread for playing music
             music_thread = threading.Thread(target=play_music, args=(music_dir,))
             music_thread.start()
-
         elif "the time" in query:
 
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"The time is {strTime}")
-
         elif "send a mail" in query:
             try:
                 speak("What message I should deliver through the ether?")
@@ -334,7 +329,6 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("I am not able to send this email")
-
         elif "how are you" in query:
             speak("I am fine, how are you")
         elif "fine" in query:
@@ -359,14 +353,12 @@ if __name__ == "__main__":
         elif "what's your name" in query or "what is your name" in query:
             speak("My friends call me ")
             speak(assistant_name)
-
         elif "joke" in query:
             joke = get_joke()
             speak(joke)
         elif "exit" in query:
             speak("Thanks for giving me your time")
             mystical_farewell()
-            # break()
         elif "calculate" in query:
             app_id = "Wolframalpha api id"
             client = wolframalpha.Client(app_id)
@@ -433,7 +425,6 @@ if __name__ == "__main__":
                 speak(getLoc.address)
                 webbrowser.open(getLoc.address)
             webbrowser.open_new_tab(url)
-
         elif "restart" in query:
             subprocess.call(["shutdown", "/r"])
         elif "hibernate" in query:
@@ -474,7 +465,6 @@ if __name__ == "__main__":
         elif "open gmail" in query:
             webbrowser.open("gmail.com")
             speak("Google Mail opened")
-
         elif "take snapshot" in query or "screen snip" in query:
             speak("Opening screen snipping tool")
             keyboard.press_and_release("win+shift+s")
@@ -494,7 +484,6 @@ if __name__ == "__main__":
             results = findfiles.find_file_in_all_drives(query)
             for x in results:
                 speak(x)
-
         else:
 
             assistant_reply = chat.get_chat_response(query)
