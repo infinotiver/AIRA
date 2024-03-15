@@ -16,6 +16,7 @@ import keyboard
 import threading
 from geopy.geocoders import Nominatim
 import pygame
+
 # (import) skills
 import skills.openapplications as openapplications
 import skills.findfiles as findfiles
@@ -47,7 +48,7 @@ class AiraAssistant:
         pygame.mixer.init()
 
         # Set appearance mode for fonts
-        #fonts.bootup()
+        # fonts.bootup()
 
     def play_music(self, music_dir):
         songs = os.listdir(music_dir)
@@ -82,7 +83,7 @@ class AiraAssistant:
                 break
         return mode_var
 
-    def search_wikipedia(self,query):
+    def search_wikipedia(self, query):
 
         try:
             results = wikipedia.summary(query, sentences=5)
@@ -91,7 +92,7 @@ class AiraAssistant:
             for i, option in enumerate(e.options[:10], start=1):
                 self.speak(f"{i}. {option}", 1)
             choice = int(input("Enter the number of your choice: "))
-            self.engine.setProperty("rate", 200) # to reduce time wastage
+            self.engine.setProperty("rate", 200)  # to reduce time wastage
             results = wikipedia.summary(e.options[choice - 1], sentences=5)
         except Exception as error:
             print(error)
@@ -130,12 +131,15 @@ class AiraAssistant:
         )
         user_preference = self.take_command(mode).lower()
         return user_preference
-    def get_news(self,category):
+
+    def get_news(self, category):
         try:
             newsapi = os.environ.get("NEWSAPI")
 
             if category.lower() == "national":
-                url = f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi}"
+                url = (
+                    f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi}"
+                )
             elif category.lower() == "headlines":
                 url = f"https://newsapi.org/v2/top-headlines?apiKey={newsapi}"
             else:
@@ -157,7 +161,9 @@ class AiraAssistant:
                 else:
                     self.speak(f"Sorry, no {category} news available at the moment.")
             else:
-                self.speak("Sorry, there was an issue fetching news. Please try again later.")
+                self.speak(
+                    "Sorry, there was an issue fetching news. Please try again later."
+                )
         except Exception as e:
             print(str(e))
 
@@ -168,7 +174,6 @@ class AiraAssistant:
         fun_fact = data["text"]
         self.speak(f"Here's a fun fact for you: {fun_fact}")
 
-
     # Search for programming tutorials on YouTube
     def search_programming_tutorials(self):
         self.speak("What programming topic are you interested in?")
@@ -176,12 +181,15 @@ class AiraAssistant:
         webbrowser.open(
             f"https://www.youtube.com/results?search_query={quote(topic)}+programming+tutorial"
         )
-        self.speak(f"I found some programming tutorials on YouTube for {topic}. Check them out!")
-
+        self.speak(
+            f"I found some programming tutorials on YouTube for {topic}. Check them out!"
+        )
 
     def get_tech_news(self):
         api_key = os.getenv("NEWS_API_KEY")
-        url = f"https://newsapi.org/v2/top-headlines?category=technology&apiKey={api_key}"
+        url = (
+            f"https://newsapi.org/v2/top-headlines?category=technology&apiKey={api_key}"
+        )
         response = requests.get(url)
         data = response.json()
 
@@ -193,7 +201,6 @@ class AiraAssistant:
                 self.speak(article["description"])
         else:
             self.speak("Sorry, I couldn't fetch technology news at the moment.")
-
 
     def send_whatsapp_message(self):
         self.speak("Whom do you want to send a WhatsApp message?")
@@ -222,10 +229,6 @@ class AiraAssistant:
             joke = "What do you give a sick lemon? Lemonaid."
         return joke
 
-
-
-
-
     def take_command(self, mode):
         if mode == 1:
             """Capture and return a user command, allowing voice and text input."""
@@ -250,6 +253,8 @@ class AiraAssistant:
             print("Type your command:")
             query = input("> ")
             return query
+
+
 def process_command():
     assistant = AiraAssistant()
     mode = 1
@@ -300,9 +305,7 @@ def process_command():
     elif "play music" in query or "play song" in query:
         assistant.speak("Here you go with music")
         music_dir = r"C:\Users\ADMIN\Desktop\Pranjal Prakarsh\[M] Media\Tunes"
-        music_thread = threading.Thread(
-            target=assistant.play_music, args=(music_dir,)
-        )
+        music_thread = threading.Thread(target=assistant.play_music, args=(music_dir,))
         music_thread.start()
 
     elif "the time" in query:
@@ -312,6 +315,7 @@ def process_command():
     elif "exit" in query:
         assistant.speak("Thanks for giving me your time")
         assistant.mystical_farewell()
+
 
 if __name__ == "__main__":
     assistant = AiraAssistant()
