@@ -25,9 +25,7 @@ class AssistantGUI:
         )
         sidebar_frame.grid(row=0, column=0, sticky="ns", ipadx=10)
         logo = customtkinter.CTkLabel(
-            sidebar_frame,
-            text="AIRA",
-            font=("Spy Agency", 30),
+            sidebar_frame, text="AIRA", font=("Spy Agency", 30),
         )
         logo.pack(pady=10)
         settings_button = customtkinter.CTkButton(
@@ -37,7 +35,7 @@ class AssistantGUI:
             width=150,
             height=30,
             corner_radius=100,
-            border_color="black"
+            border_color="black",
         )
         settings_button.pack(pady=(100, 10))
 
@@ -54,9 +52,11 @@ class AssistantGUI:
         optionmenu = customtkinter.CTkOptionMenu(
             sidebar_frame,
             values=["Voice Input", "Text Input"],
-            #command=optionmenu_callback,
-            variable=optionmenu_var)
+            # command=optionmenu_callback,
+            variable=optionmenu_var,
+        )
         optionmenu.pack()
+
     def create_main_frame(self):
         main_frame = customtkinter.CTkFrame(
             self.root, width=630, height=600, corner_radius=0
@@ -70,11 +70,7 @@ class AssistantGUI:
         main_frame.grid(row=0, column=1, sticky="nsew")
 
         self.user_input_entry = customtkinter.CTkEntry(
-            main_frame,
-            width=200,
-            height=40,
-            corner_radius=10,
-            font=("Arial", 15),
+            main_frame, width=200, height=40, corner_radius=10, font=("Arial", 15),
         )
         self.user_input_entry.place(relx=0.3, rely=0.5, anchor="center")
 
@@ -121,6 +117,7 @@ class AssistantGUI:
         time_string = strftime("%I:%M %p")
         self.time_label.configure(text=time_string)
         self.root.after(60000, self.update_time)
+
     def handle_ok_click(self):
         # Get user input from the entry widget
         user_input = self.user_input_entry.get()
@@ -128,11 +125,8 @@ class AssistantGUI:
         self.user_input_entry.delete(0, customtkinter.END)  # Clear the entry after use
         self.process_command_func(query=user_input)
 
-
-
     def display_user_input(self, input_text):
-        self.user_input_label.configure(
-            text=f"User Input: {input_text}")
+        self.user_input_label.configure(text=f"User Input: {input_text}")
 
     def display_output(self, output_text):
         self.output_text.configure(text=f"Output: {output_text}")
@@ -165,8 +159,7 @@ class AssistantGUI:
         code_button.place(anchor="center", rely=0.6, relx=0.5)
 
     def open_code(self):
-        webbrowser.open_new(
-            "https://github.com/infinotiver/Aira-Voice-Assistant")
+        webbrowser.open_new("https://github.com/infinotiver/Aira-Voice-Assistant")
 
     def start_gui(self):
         self.root.mainloop()
