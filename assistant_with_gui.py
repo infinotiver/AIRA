@@ -2,8 +2,9 @@ import tkinter as tk
 import customtkinter
 from threading import Thread
 from time import strftime
-from gui import AssistantGUI 
+from gui import AssistantGUI
 from aira import *
+
 # (import) skills
 import skills.openapplications as openapplications
 import skills.findfiles as findfiles
@@ -14,17 +15,15 @@ import skills.sendmail as sendmail
 import skills.definition as definition
 
 
-
 class AssistantWithGUI(AiraAssistant):
     def __init__(self):
         super().__init__()  # Initialize the Aira class
 
         self.app_gui = None
 
-
-    def process_command(self,query):
+    def process_command(self, query):
         query = query.lower()
-        #query="tell the time"
+        # query="tell the time"
         self.app_gui.display_user_input(query)
 
         if "wikipedia" in query:
@@ -75,19 +74,18 @@ class AssistantWithGUI(AiraAssistant):
 
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            response=f"The time is {strTime}"
+            response = f"The time is {strTime}"
             self.app_gui.display_output(response)
             self.speak(response)
-            
 
         elif "exit" in query:
             self.speak("Thanks for giving me your time")
             self.mystical_farewell()
         else:
-            response="I don't understand that yet"
+            response = "I don't understand that yet"
             self.app_gui.display_output(response)
             self.speak(response)
-            
+
     def start_gui(self):
         if not self.app_gui:
             self.app_gui = AssistantGUI(process_command_func=self.process_command)
