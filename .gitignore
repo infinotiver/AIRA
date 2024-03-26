@@ -1,7 +1,10 @@
 .env
 Aira.txt
 .txt
-__pycache__
+*__pycache__/
+*.gitignore
+.vscode/
+
 .venv
 customtkinter_example.py
 w.i.p and archive
