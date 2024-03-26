@@ -14,7 +14,7 @@ from plyer import notification
 from urllib.parse import quote
 import keyboard
 import threading
-from geopy.geocoders import Nominatim
+#
 import pygame
 
 # (import) skills
@@ -42,7 +42,7 @@ class AiraAssistant:
         self.assistant_name = "Aira"  # Customize assistant name
 
         # calling the Nominatim tool
-        self.loc = Nominatim(user_agent="GetLoc")
+        #self.loc = Nominatim(user_agent="GetLoc")
 
         # Initialize pygame mixer
         pygame.mixer.init()
