@@ -70,13 +70,13 @@ class AssistantGUI:
         main_frame.grid(row=0, column=1, sticky="nsew")
 
         self.user_input_entry = customtkinter.CTkEntry(
-            main_frame, width=200, height=40, corner_radius=10, font=("Arial", 15),
+            main_frame, width=300, height=40, corner_radius=10, font=("Arial", 15),
         )
         self.user_input_entry.place(relx=0.3, rely=0.5, anchor="center")
 
         self.ok_button = customtkinter.CTkButton(
             main_frame,
-            text="OK",
+            text="Send",
             command=self.handle_ok_click,
             width=100,
             height=40,
@@ -84,6 +84,7 @@ class AssistantGUI:
             font=("Arial", 15),
         )
         self.ok_button.place(relx=0.7, rely=0.5, anchor="center")
+        self.user_input_entry.bind("<Return>", self.handle_ok_click)
 
         self.output_text = customtkinter.CTkLabel(
             main_frame,
@@ -118,7 +119,8 @@ class AssistantGUI:
         self.time_label.configure(text=time_string)
         self.root.after(60000, self.update_time)
 
-    def handle_ok_click(self):
+    def handle_ok_click(self,event=None):
+        print("Calling functions")
         # Get user input from the entry widget
         user_input = self.user_input_entry.get()
         print(user_input)
