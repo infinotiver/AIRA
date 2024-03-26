@@ -3,17 +3,19 @@ import customtkinter
 from threading import Thread
 from time import strftime
 from gui import AssistantGUI
+
+
+
+# Importing modules from the skills directory
+from skills import openapplications
+from skills import findfiles
+from skills import weather
+from skills import chat
+from skills import fonts
+from skills import sendmail
+from skills import definition
+
 from aira import *
-
-# (import) skills
-import skills.openapplications as openapplications
-import skills.findfiles as findfiles
-import skills.weather as weather
-import skills.chat as chat
-import skills.fonts as fonts
-import skills.sendmail as sendmail
-import skills.definition as definition
-
 
 class AssistantWithGUI(AiraAssistant):
     def __init__(self):
