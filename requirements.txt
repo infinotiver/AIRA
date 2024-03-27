@@ -8,7 +8,7 @@ Requests==2.31.0
 SpeechRecognition==3.8.1
 wikipedia==1.4.0
 wolframalpha==5.0.0
-tflearn
-tensorflow
 geopy
 customtkinter
+plyer
+keyboard
