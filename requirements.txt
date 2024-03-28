@@ -9,6 +9,6 @@ SpeechRecognition==3.8.1
 wikipedia==1.4.0
 wolframalpha==5.0.0
 geopy
-customtkinter
-plyer
-keyboard
+customtkinter==5.2.2
+plyer==2.1.0
+keyboard==0.13.5
