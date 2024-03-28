@@ -6,14 +6,32 @@ from gui import AssistantGUI
 
 
 
-# Importing modules from the skills directory
+# Importing modules from the skills directory (Pass if no internet connection or error)
 from skills import openapplications
-from skills import findfiles
-from skills import weather
-from skills import chat
-from skills import fonts
-from skills import sendmail
-from skills import definition
+try:
+    from skills import findfiles
+except:
+    pass
+try:
+    from skills import weather
+except:
+    pass
+try:
+    from skills import chat
+except:
+    pass
+try:
+    from skills import fonts
+except:
+    pass
+try:
+    from skills import sendmail
+except:
+    pass
+try:
+    from skills import definition
+except:
+    pass
 
 from aira import *
 
@@ -23,7 +41,7 @@ class AssistantWithGUI(AiraAssistant):
 
         self.app_gui = None
 
-    def process_command(self, query):
+    def gui_process_command(self, query):
         query = query.lower()
         # query="tell the time"
         self.app_gui.display_user_input(query)
@@ -90,7 +108,7 @@ class AssistantWithGUI(AiraAssistant):
 
     def start_gui(self):
         if not self.app_gui:
-            self.app_gui = AssistantGUI(process_command_func=self.process_command)
+            self.app_gui = AssistantGUI(process_command_func=self.gui_process_command)
             self.app_gui.start_gui()
         else:
             print("GUI already running.")
