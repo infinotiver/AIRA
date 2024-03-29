@@ -12,3 +12,4 @@ geopy
 customtkinter==5.2.2
 plyer==2.1.0
 keyboard==0.13.5
+pygame
