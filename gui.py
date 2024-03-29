@@ -20,25 +20,26 @@ class AssistantGUI:
         self.update_time()
 
     def create_sidebar(self):
-        side_bar_frame = customtkinter.CTkFrame(self.root, width=140,corner_radius=0)
+        side_bar_frame = customtkinter.CTkFrame(self.root, width=140,corner_radius=0,fg_color="gray10")
         side_bar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         side_bar_frame.grid_rowconfigure(4, weight=1)
         logo_label = customtkinter.CTkLabel(
             side_bar_frame,
             text="A.I.R.A.",
-            font=customtkinter.CTkFont(size=20, weight="bold"
-            ))
+            font=("Consolas",20))
         logo_label.grid(
             row=0,
             column=0,
             padx=20,
             pady=(20, 10)
                         )
-        settings_button = customtkinter.CTkButton(side_bar_frame,text="Settings", command=None)
+        settings_button = customtkinter.CTkButton(side_bar_frame,text="Settings",font = ("Consolas", 15), command=None)
         settings_button.grid(row=1, column=0, padx=20, pady=10)
-        sidebar_button_2 = customtkinter.CTkButton(side_bar_frame,text="About", command=self.open_about)
+        sidebar_button_2 = customtkinter.CTkButton(side_bar_frame,text="About", font = ("Consolas",15), command=self.open_about)
         sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
-        appearance_mode_optionemenu = customtkinter.CTkOptionMenu(side_bar_frame, values=["Dark","Light", "System"],command=self.change_appearance_mode_event,)
+        theme_label = customtkinter.CTkLabel(side_bar_frame, text="Theme (Experimental)", font = ("Consolas",15))
+        theme_label.grid(row=5,column=0, padx=20, pady=(10, 10))
+        appearance_mode_optionemenu = customtkinter.CTkOptionMenu(side_bar_frame, values=["Dark","Light", "System"],command=self.change_appearance_mode_event)
         appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
 
 
@@ -52,7 +53,7 @@ class AssistantGUI:
         self.user_input_entry = customtkinter.CTkEntry(
             main_frame, placeholder_text = "Input Command",height=40,width=350, corner_radius=10,  font =("Consolas", 15)
         )
-        self.user_input_entry.place(relx=0.3, rely=0.5, anchor="center")
+        self.user_input_entry.place(relx=0.3, rely=0.8, anchor="center")
 
         self.ok_button = customtkinter.CTkButton(
             main_frame,
@@ -60,10 +61,10 @@ class AssistantGUI:
             command=self.handle_ok_click,
             width=100,
             height=40,
-            corner_radius=20,
+            corner_radius=100,
             font=("Consolas", 15),
         )
-        self.ok_button.place(relx=0.7, rely=0.5, anchor="center")
+        self.ok_button.place(relx=0.7, rely=0.8, anchor="center")
         self.user_input_entry.bind("<Return>", self.handle_ok_click)
 
         self.output_text = customtkinter.CTkLabel(
