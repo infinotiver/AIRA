@@ -4,7 +4,7 @@ from time import strftime
 import webbrowser
 
 customtkinter.set_appearance_mode("System")
-customtkinter.set_default_color_theme("blue")
+customtkinter.set_default_color_theme("dark-blue")
 
 
 class AssistantGUI:
@@ -13,64 +13,44 @@ class AssistantGUI:
     def __init__(self, process_command_func):
         self.root = customtkinter.CTk()
         self.root.title("Assistant GUI")
-        self.root.geometry("800x600")
+        self.root.geometry("810x600")
         self.create_sidebar()
         self.create_main_frame()
         self.process_command_func = process_command_func
         self.update_time()
 
     def create_sidebar(self):
-        sidebar_frame = customtkinter.CTkFrame(
-            self.root, width=900, height=900, fg_color="#333333", corner_radius=0,
-        )
-        sidebar_frame.grid(row=0, column=0, sticky="ns", ipadx=10)
-        logo = customtkinter.CTkLabel(
-            sidebar_frame, text="AIRA", font=("Spy Agency", 30),
-        )
-        logo.pack(pady=10)
-        settings_button = customtkinter.CTkButton(
-            sidebar_frame,
-            text="Settings",
-            command=self.open_settings,
-            width=150,
-            height=30,
-            corner_radius=100,
-            border_color="black",
-        )
-        settings_button.pack(pady=(100, 10))
+        side_bar_frame = customtkinter.CTkFrame(self.root, width=140,corner_radius=0)
+        side_bar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
+        side_bar_frame.grid_rowconfigure(4, weight=1)
+        logo_label = customtkinter.CTkLabel(
+            side_bar_frame,
+            text="A.I.R.A.",
+            font=customtkinter.CTkFont(size=20, weight="bold"
+            ))
+        logo_label.grid(
+            row=0,
+            column=0,
+            padx=20,
+            pady=(20, 10)
+                        )
+        settings_button = customtkinter.CTkButton(side_bar_frame,text="Settings", command=None)
+        settings_button.grid(row=1, column=0, padx=20, pady=10)
+        sidebar_button_2 = customtkinter.CTkButton(side_bar_frame,text="About", command=self.open_about)
+        sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
+        appearance_mode_optionemenu = customtkinter.CTkOptionMenu(side_bar_frame, values=["Dark","Light", "System"],command=self.change_appearance_mode_event,)
+        appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
 
-        about_button = customtkinter.CTkButton(
-            sidebar_frame,
-            text="About",
-            command=self.open_about,
-            width=150,
-            height=30,
-            corner_radius=100,
-        )
-        about_button.pack(pady=10)
-        optionmenu_var = customtkinter.StringVar(value="Voice Input")
-        optionmenu = customtkinter.CTkOptionMenu(
-            sidebar_frame,
-            values=["Voice Input", "Text Input"],
-            # command=optionmenu_callback,
-            variable=optionmenu_var,
-        )
-        optionmenu.pack()
+
+
 
     def create_main_frame(self):
         main_frame = customtkinter.CTkFrame(
             self.root, width=630, height=600, corner_radius=0
         )
         main_frame.grid(row=0, column=1, sticky="nsew")
-
-    def create_main_frame(self):
-        main_frame = customtkinter.CTkFrame(
-            self.root, width=630, height=600, corner_radius=0
-        )
-        main_frame.grid(row=0, column=1, sticky="nsew")
-
         self.user_input_entry = customtkinter.CTkEntry(
-            main_frame, width=300, height=40, corner_radius=10, font=("Arial", 15),
+            main_frame, placeholder_text = "Input Command",height=40,width=350, corner_radius=10,  font =("Consolas", 15)
         )
         self.user_input_entry.place(relx=0.3, rely=0.5, anchor="center")
 
@@ -81,7 +61,7 @@ class AssistantGUI:
             width=100,
             height=40,
             corner_radius=20,
-            font=("Arial", 15),
+            font=("Consolas", 15),
         )
         self.ok_button.place(relx=0.7, rely=0.5, anchor="center")
         self.user_input_entry.bind("<Return>", self.handle_ok_click)
@@ -89,7 +69,7 @@ class AssistantGUI:
         self.output_text = customtkinter.CTkLabel(
             main_frame,
             text="",
-            font=("Helvetica", 15),
+            font =("Consolas", 15),
             text_color="whitesmoke",
             fg_color="#313338",
             corner_radius=60,
@@ -98,7 +78,7 @@ class AssistantGUI:
         self.time_label = customtkinter.CTkLabel(
             main_frame,
             text="",
-            font=("Helvetica", 12),
+            font =("Consolas", 12),
             fg_color="#333333",
             text_color="white",
             corner_radius=10,
@@ -107,7 +87,7 @@ class AssistantGUI:
         self.user_input_label = customtkinter.CTkLabel(
             main_frame,
             text="Press the command button...",
-            font=("Helvetica", 15),
+            font =("Consolas", 15),
             text_color="#c5c1c1",
             fg_color="#303136",
             corner_radius=60,
@@ -115,9 +95,9 @@ class AssistantGUI:
         self.user_input_label.place(relx=0.981, rely=0.01, anchor="ne")
 
     def update_time(self):
-        time_string = strftime("%I:%M %p")
+        time_string = strftime("%c")
         self.time_label.configure(text=time_string)
-        self.root.after(60000, self.update_time)
+        self.root.after(100, self.update_time)
 
     def handle_ok_click(self,event=None):
         print("Calling functions")
@@ -136,6 +116,8 @@ class AssistantGUI:
     def open_settings(self):
         print("Opening settings...")
 
+    def change_appearance_mode_event(self, new_appearance_mode: str):
+        customtkinter.set_appearance_mode(new_appearance_mode)
     def open_about(self):
         about_window = customtkinter.CTkToplevel(self.root)
         about_window.title("About")
@@ -144,7 +126,7 @@ class AssistantGUI:
         about_label = customtkinter.CTkLabel(
             about_window,
             text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver",
-            font=("Arial", 14),
+            font=("Consolas", 14),
         )
         code_label = customtkinter.CTkLabel(
             about_window, text="This is a voice / text operated personal assistant "
@@ -165,3 +147,10 @@ class AssistantGUI:
 
     def start_gui(self):
         self.root.mainloop()
+
+# Incase of testing        
+def start_gui_alone():
+    app_gui = AssistantGUI(process_command_func=None)
+    app_gui.start_gui()
+
+#start_gui_alone()
