@@ -1,45 +1,71 @@
-import tkinter as tk
-import customtkinter
-from threading import Thread
-from time import strftime
+import traceback
+from typing import List
+import pyttsx3
+import speech_recognition as sr
+import wikipedia
+import webbrowser
+import datetime
+import os
+import time
+import requests
+from plyer import notification
+from urllib.parse import quote
+import keyboard
+import threading
+import logging
+from collections import deque 
+import importlib.util
+import requests
+
+# (import) skills
+import skills.openapplications as openapplications
+try:
+    import skills.findfiles as findfiles
+except:
+    pass
+try:
+    import skills.weather as weather
+except:
+    pass
+try:
+    import skills.chat as chat
+except:
+    pass
+try:
+    import skills.fonts as fonts
+except:
+    pass
+try:
+    import skills.sendmail as sendmail
+except:
+    pass
+try:
+    import skills.definition as definition
+except:
+    pass
+
+from assistant_wrapper import VoiceAssistant
 from gui import AssistantGUI
 
+class AssistantWithGUI(VoiceAssistant):
+    def __init__(self, gui_instance):
+        super().__init__(name="Aira", mode=1, gui_instance=gui_instance)
 
+    def process_command(self, gui_user_input=None):
+        """
+        Processes a command received from the user and performs the corresponding action.
 
-# Importing modules from the skills directory (Pass if no internet connection or error)
-from skills import openapplications
-try:
-    from skills import findfiles
-except:
-    pass
-try:
-    from skills import weather
-except:
-    pass
-try:
-    from skills import chat
-except:
-    pass
-try:
-    from skills import fonts
-except:
-    pass
-try:
-    from skills import sendmail
-except:
-    pass
-try:
-    from skills import definition
-except:
-    pass
+        Args:
+            gui_user_input (str, optional): The user input from the GUI. Defaults to None.
 
-from aira import *
-
-class AssistantWithGUI(AiraAssistant):
-    def __init__(self):
-        super().__init__()  # Initialize the Aira class
-
-        self.app_gui = None
+        Returns:
+            None
+        """
+        if self.mode == 0:
+            query = self.take_command().lower()
+        else:
+            query = gui_user_input.lower()
+        super().process_command(gui_user_input=query)
 
     def gui_process_command(self, query):
         query = query.lower()
@@ -86,11 +112,6 @@ class AssistantWithGUI(AiraAssistant):
             except Exception as e:
                 self.speak(str(e))
 
-        elif "play music" in query or "play song" in query:
-            self.speak("Here you go with music")
-            music_dir = r"C:\Users\ADMIN\Desktop\Pranjal Prakarsh\[M] Media\Tunes"
-            music_thread = Thread(target=self.play_music, args=(music_dir,))
-            music_thread.start()
 
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
@@ -107,13 +128,18 @@ class AssistantWithGUI(AiraAssistant):
             self.speak(response)
 
     def start_gui(self):
-        if not self.app_gui:
-            self.app_gui = AssistantGUI(process_command_func=self.gui_process_command)
-            self.app_gui.start_gui()
-        else:
-            print("GUI already running.")
+        # Pass self.gui_process_command as process_command_func
+        self.app_gui = AssistantGUI(process_command_func=self.gui_process_command)
+        self.app_gui.start_gui()
+        return self.app_gui
 
 
 if __name__ == "__main__":
-    assistant_with_gui = AssistantWithGUI()
-    assistant_with_gui.start_gui()
+    try:
+        assistant_with_gui = AssistantWithGUI(gui_instance=None)
+        gui_instance = assistant_with_gui.start_gui()
+        if gui_instance is None:
+            print("Error in starting GUI")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        traceback.print_exc()

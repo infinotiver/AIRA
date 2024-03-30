@@ -135,11 +135,14 @@ class AssistantGUI:
 
     def handle_ok_click(self, event=None):
         print("Calling functions")
-        # Get user input from the entry widget
-        user_input = self.user_input_entry.get()
-        print(user_input)
-        self.user_input_entry.delete(0, customtkinter.END)  # Clear the entry after use
-        self.process_command_func(query=user_input)
+        try:
+            # Get user input from the entry widget
+            user_input = self.user_input_entry.get()
+            print(user_input)
+            self.user_input_entry.delete(0, customtkinter.END)  # Clear the entry after use
+            self.process_command_func(query=user_input)
+        except Exception as e:
+            print(f"Error: process_command_func is not set.\n {e}")
 
     def display_user_input(self, input_text):
         self.user_input_label.configure(text=f"User Input: {input_text}")
@@ -183,9 +186,11 @@ class AssistantGUI:
     def start_gui(self):
         self.root.mainloop()
 
-# Incase of testing        
+
+# Incase of testing
 def start_gui_alone():
     app_gui = AssistantGUI(process_command_func=None)
     app_gui.start_gui()
+
 
 #start_gui_alone()
