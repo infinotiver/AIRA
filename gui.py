@@ -13,37 +13,65 @@ class AssistantGUI:
     def __init__(self, process_command_func):
         self.root = customtkinter.CTk()
         self.root.title("Assistant GUI")
-        self.root.geometry("810x600")
+        # self.root.geometry("810x600")
         self.create_sidebar()
         self.create_main_frame()
         self.process_command_func = process_command_func
         self.update_time()
 
     def create_sidebar(self):
-        side_bar_frame = customtkinter.CTkFrame(self.root, width=140,corner_radius=0,fg_color="gray10")
+        side_bar_frame = customtkinter.CTkFrame(
+            self.root, width=140, corner_radius=0, fg_color="gray10"
+        )
         side_bar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         side_bar_frame.grid_rowconfigure(4, weight=1)
         logo_label = customtkinter.CTkLabel(
-            side_bar_frame,
-            text="A.I.R.A.",
-            font=("Consolas",20))
-        logo_label.grid(
-            row=0,
-            column=0,
-            padx=20,
-            pady=(20, 10)
-                        )
-        settings_button = customtkinter.CTkButton(side_bar_frame,text="Settings",font = ("Consolas", 15), command=None)
+            side_bar_frame, text="A.I.R.A.", font=("Consolas", 20)
+        )
+        logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
+        settings_button = customtkinter.CTkButton(
+            side_bar_frame, text="Settings", font=("Consolas", 15), command=None
+        )
         settings_button.grid(row=1, column=0, padx=20, pady=10)
-        sidebar_button_2 = customtkinter.CTkButton(side_bar_frame,text="About", font = ("Consolas",15), command=self.open_about)
+        sidebar_button_2 = customtkinter.CTkButton(
+            side_bar_frame, text="About", font=("Consolas", 15), command=self.open_about
+        )
         sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
-        theme_label = customtkinter.CTkLabel(side_bar_frame, text="Theme (Experimental)", font = ("Consolas",15))
-        theme_label.grid(row=5,column=0, padx=20, pady=(10, 10))
-        appearance_mode_optionemenu = customtkinter.CTkOptionMenu(side_bar_frame, values=["Dark","Light", "System"],command=self.change_appearance_mode_event)
+        theme_label = customtkinter.CTkLabel(
+            side_bar_frame, text="Theme (Beta)", font=("Consolas", 15)
+        )
+        theme_label.grid(row=5, column=0, padx=20, pady=(10, 10))
+        appearance_mode_optionemenu = customtkinter.CTkOptionMenu(
+            side_bar_frame,
+            values=["Dark", "Light", "System"],
+            command=self.change_appearance_mode_event,
+        )
         appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
 
+        # Create a label to display the message
+        label = customtkinter.CTkLabel(side_bar_frame, text="Choose an input mode:")
+        label.grid(row=7, column=0)
 
+        # Create a StringVar object to store the selected mode
+        var = customtkinter.StringVar(side_bar_frame)
+        var.set("Text")  # Set the default selected mode as 't'
+        mode_selection_dropdown = customtkinter.CTkOptionMenu(
+            side_bar_frame,
+            values=["Text", "Speech"],
+            variable=var,
+        )
+        # Create radio buttons for the two modes
+        mode_selection_dropdown.grid(row=8, column=0, padx=20, pady=(10, 10))
 
+        # Function to handle the selection of the mode from the GUI
+        def select_mode():
+            """
+            Handles the selection of the mode from the GUI.
+            """
+            global mode_var
+            mode_var = var.get()
+            print(mode_var)
+            pass
 
     def create_main_frame(self):
         main_frame = customtkinter.CTkFrame(
@@ -51,7 +79,12 @@ class AssistantGUI:
         )
         main_frame.grid(row=0, column=1, sticky="nsew")
         self.user_input_entry = customtkinter.CTkEntry(
-            main_frame, placeholder_text = "Input Command",height=40,width=350, corner_radius=10,  font =("Consolas", 15)
+            main_frame,
+            placeholder_text="Input Command",
+            height=40,
+            width=350,
+            corner_radius=10,
+            font=("Consolas", 15),
         )
         self.user_input_entry.place(relx=0.3, rely=0.8, anchor="center")
 
@@ -70,7 +103,7 @@ class AssistantGUI:
         self.output_text = customtkinter.CTkLabel(
             main_frame,
             text="",
-            font =("Consolas", 15),
+            font=("Consolas", 15),
             text_color="whitesmoke",
             fg_color="#313338",
             corner_radius=60,
@@ -78,8 +111,8 @@ class AssistantGUI:
         self.output_text.place(relx=0.01, rely=0.1, anchor="nw")
         self.time_label = customtkinter.CTkLabel(
             main_frame,
-            text="",
-            font =("Consolas", 12),
+            text="...",
+            font=("Consolas", 12),
             fg_color="#333333",
             text_color="white",
             corner_radius=10,
@@ -87,8 +120,8 @@ class AssistantGUI:
         self.time_label.place(relx=0.99, rely=0.99, anchor="se")
         self.user_input_label = customtkinter.CTkLabel(
             main_frame,
-            text="Press the command button...",
-            font =("Consolas", 15),
+            text="Press the SEND button...",
+            font=("Consolas", 15),
             text_color="#c5c1c1",
             fg_color="#303136",
             corner_radius=60,
@@ -100,7 +133,7 @@ class AssistantGUI:
         self.time_label.configure(text=time_string)
         self.root.after(100, self.update_time)
 
-    def handle_ok_click(self,event=None):
+    def handle_ok_click(self, event=None):
         print("Calling functions")
         # Get user input from the entry widget
         user_input = self.user_input_entry.get()
@@ -119,6 +152,7 @@ class AssistantGUI:
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
+
     def open_about(self):
         about_window = customtkinter.CTkToplevel(self.root)
         about_window.title("About")
