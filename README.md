@@ -1,4 +1,15 @@
 ## Artificially Intelligent Responsible (_also_ Robotic) Assistant
+List of Alternative full forms for AIRA
+- Artificial Intelligence Responsive Assistant
+- Automated Intelligent Resourceful Agent
+- Advanced Interactive Robotic Assistant
+- Autonomous Interactive Response Apparatus
+- Adaptive Intelligence Resource Assistant
+- Augmented Intelligence Robotic Advisor
+- Advanced Integrated Response Algorithm
+- Automated Information Retrieval Agent
+- Analytical Intelligent Response Assistant
+- Artificially Intelligent Robotic Aid
 
 This Python project implements a personal assistant using the `customtkinter` library for a graphical user interface. It allows you to interact with the assistant through **text input** instead of voice commands.
 
