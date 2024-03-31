@@ -134,7 +134,11 @@ class AIRA_Interactive_Assistant:
         self.mode = mode_var
         return self.mode
 
-
+    def assistant_gui_show_user_input(self,user_input:str):
+        if not self.mode==1:
+            raise "Not GUI INSTANCE"
+        else:
+            self.gui_instance.display_user_input(user_input)
     def assistant_output(self, response):
 
         """Print and speak the given audio message with a mystical touch."""
@@ -143,7 +147,6 @@ class AIRA_Interactive_Assistant:
             self.engine.say(response)
             self.engine.runAndWait()
         elif self.mode == 1:
-
             self.gui_instance.display_output(response) 
             self.engine.say(response)
             self.engine.runAndWait()

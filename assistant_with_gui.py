@@ -71,10 +71,8 @@ class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
     def gui_process_command(self, query):
         query = query.lower()
         # query="tell the time"
-        if self.app_gui:
-            self.app_gui.display_user_input(query)
-
-        elif "the time" in query:
+        self.assistant_gui_show_user_input(query)
+        if "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             response = f"The time is {strTime}"
             self.assistant_output(response)
