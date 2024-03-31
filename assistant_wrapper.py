@@ -30,7 +30,7 @@ import skills.definition as definition
 
 # [TODO] Natural Language Understanding (NLU) integration 
 
-class VoiceAssistant:
+class AIRA_Interactive_Assistant:
     def __init__(self, name: str, mode: int = 0, gui_instance=None) -> None:
         """
         Initialize the Chatbot class.
@@ -135,16 +135,17 @@ class VoiceAssistant:
         return self.mode
 
 
-    def assistant_output(self, audio):
+    def assistant_output(self, response):
         """Print and speak the given audio message with a mystical touch."""
         if self.mode == 0:
-            print(f"\033[35m{audio}\033[0m")
-            self.engine.say(audio)
+            print(f"\033[35m{response}\033[0m")
+            self.engine.say(response)
             self.engine.runAndWait()
         elif self.mode == 1:
-            self.engine.say(audio)
+            self.gui_instance.display_output(response) 
+            self.engine.say(response)
             self.engine.runAndWait()
-            self.gui_instance.display_output(audio) 
+            
 
     def greet(self):
         """Greet the user with a mystical touch."""
@@ -206,7 +207,7 @@ def process_command(self,gui_user_input=None):
     Raises:
         None.
     """
-    assistant = VoiceAssistant()
+    assistant = AIRA_Interactive_Assistant()
     if self.mode == 0:
         query = assistant.take_command().lower()
     else:

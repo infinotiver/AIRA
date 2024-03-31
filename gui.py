@@ -7,10 +7,10 @@ customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("dark-blue")
 
 
-class AssistantGUI:
+class GraphicalUserInterface:
     root_instance = None
 
-    def __init__(self, process_command_func):
+    def __init__(self, process_command_func=None):
         self.root = customtkinter.CTk()
         self.root.title("Assistant GUI")
         # self.root.geometry("810x600")
@@ -142,7 +142,7 @@ class AssistantGUI:
             self.user_input_entry.delete(0, customtkinter.END)  # Clear the entry after use
             self.process_command_func(query=user_input)
         except Exception as e:
-            print(f"Error: process_command_func is not set.\n {e}")
+            print(f"{e}")
 
     def display_user_input(self, input_text):
         self.user_input_label.configure(text=f"User Input: {input_text}")
@@ -189,7 +189,7 @@ class AssistantGUI:
 
 # Incase of testing
 def start_gui_alone():
-    app_gui = AssistantGUI(process_command_func=None)
+    app_gui = GraphicalUserInterface(process_command_func=None)
     app_gui.start_gui()
 
 

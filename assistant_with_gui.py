@@ -1,4 +1,3 @@
-import traceback
 from typing import List
 import pyttsx3
 import speech_recognition as sr
@@ -44,12 +43,13 @@ try:
 except:
     pass
 
-from assistant_wrapper import VoiceAssistant
-from gui import AssistantGUI
+from assistant_wrapper import AIRA_Interactive_Assistant
+from gui import GraphicalUserInterface
 
-class AssistantWithGUI(VoiceAssistant):
+class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
     def __init__(self, gui_instance):
         super().__init__(name="Aira", mode=1, gui_instance=gui_instance)
+        self.app_gui = None  # Initialize app_gui attribute
 
     def process_command(self, gui_user_input=None):
         """
@@ -70,7 +70,8 @@ class AssistantWithGUI(VoiceAssistant):
     def gui_process_command(self, query):
         query = query.lower()
         # query="tell the time"
-        self.app_gui.display_user_input(query)
+        if self.app_gui:
+            self.app_gui.display_user_input(query)
 
         if "wikipedia" in query:
             self.speak("Searching wikipedia")
@@ -116,30 +117,41 @@ class AssistantWithGUI(VoiceAssistant):
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             response = f"The time is {strTime}"
-            self.app_gui.display_output(response)
-            self.speak(response)
+            self.assistant_output(response)
 
         elif "exit" in query:
             self.speak("Thanks for giving me your time")
             self.mystical_farewell()
         else:
             response = "I don't understand that yet"
-            self.app_gui.display_output(response)
+            if self.app_gui:
+                self.app_gui.display_output(response)
             self.speak(response)
 
     def start_gui(self):
-        # Pass self.gui_process_command as process_command_func
-        self.app_gui = AssistantGUI(process_command_func=self.gui_process_command)
-        self.app_gui.start_gui()
-        return self.app_gui
+        if self.gui_instance is None:
+            # Pass self.gui_process_command as process_command_func
+            self.app_gui = GraphicalUserInterface(process_command_func=self.gui_process_command)
+            self.app_gui.start_gui()
+            return self.app_gui
+        else:
+            print("GUI instance already provided.")
+            return self.gui_instance
 
 
 if __name__ == "__main__":
     try:
-        assistant_with_gui = AssistantWithGUI(gui_instance=None)
-        gui_instance = assistant_with_gui.start_gui()
-        if gui_instance is None:
-            print("Error in starting GUI")
+        # Create an instance of AssistantGUI
+        assistant_gui_instance = GraphicalUserInterface()
+
+        # Create an instance of AssistantWithGUI with the gui_instance provided
+        assistant_with_gui = InteractiveAssistantWithGUI(gui_instance=assistant_gui_instance)
+
+        # Set the process_command_func of the AssistantGUI instance
+        assistant_gui_instance.process_command_func = assistant_with_gui.gui_process_command
+
+        # Start the GUI
+        assistant_gui_instance.start_gui()
     except Exception as e:
         print(f"An error occurred: {e}")
         traceback.print_exc()
