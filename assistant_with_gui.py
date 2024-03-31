@@ -80,13 +80,12 @@ class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
             self.assistant_output(response)
 
         elif "exit" in query:
-            self.speak("Thanks for giving me your time")
-            self.mystical_farewell()
+            self.assistant_output("Thanks for giving me your time")
+            self.farewell()
         else:
             response = "I don't understand that yet"
-            if self.app_gui:
-                self.app_gui.display_output(response)
-            self.speak(response)
+            self.assistant_output(response)
+
 
     def start_gui(self):
         if self.gui_instance is None:

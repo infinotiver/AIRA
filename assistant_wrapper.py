@@ -136,12 +136,14 @@ class AIRA_Interactive_Assistant:
 
 
     def assistant_output(self, response):
+
         """Print and speak the given audio message with a mystical touch."""
         if self.mode == 0:
             print(f"\033[35m{response}\033[0m")
             self.engine.say(response)
             self.engine.runAndWait()
         elif self.mode == 1:
+
             self.gui_instance.display_output(response) 
             self.engine.say(response)
             self.engine.runAndWait()
