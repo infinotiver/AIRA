@@ -74,47 +74,6 @@ class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
         if self.app_gui:
             self.app_gui.display_user_input(query)
 
-        if "wikipedia" in query:
-            self.speak("Searching wikipedia")
-            query = query.replace("wikipedia", "")
-            self.search_wikipedia(query)
-
-        elif "open youtube" in query:
-            self.speak(openapplications.Open_Applications.youtube())
-
-        elif "youtube" in query:
-            search_query = query.replace("youtube", "").strip()
-            openapplications.Open_Applications.search_yt(search_query)
-
-        elif "open google" in query:
-            self.speak(openapplications.Open_Applications.google())
-
-        elif "search on google" in query:
-            search_query = query.replace("search on google", "")
-            openapplications.Open_Applications.search_google(search_query)
-            self.speak("Opening your browser for desired results")
-
-        elif "open stackoverflow" in query:
-            self.speak(openapplications.Open_Applications.stackoverflow())
-            webbrowser.open("stackoverflow.com")
-
-        elif "open aisc" in query:
-            self.speak(openapplications.Open_Applications.aisc())
-            webbrowser.open("aistudent.community")
-
-        elif "open forum" in query or "open aisc forum" in query:
-            self.speak(openapplications.Open_Applications.aisc_forum())
-
-        elif "define" in query:
-            query = query.replace("define", "")
-            try:
-                word_data = definition.get_word_definition(query)
-                word_data = definition.speak_definition(query, word_data)
-                self.speak(word_data)
-            except Exception as e:
-                self.speak(str(e))
-
-
         elif "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             response = f"The time is {strTime}"
