@@ -51,23 +51,14 @@ class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
     def __init__(self, gui_instance):
         super().__init__(name="Aira", mode=1, gui_instance=gui_instance)
         self.app_gui = None  # Initialize app_gui attribute
-
+        """
     def process_command(self, gui_user_input=None):
-        """
-        Processes a command received from the user and performs the corresponding action.
-
-        Args:
-            gui_user_input (str, optional): The user input from the GUI. Defaults to None.
-
-        Returns:
-            None
-        """
         if self.mode == 0:
             query = self.take_command().lower()
         else:
             query = gui_user_input.lower()
         super().process_command(gui_user_input=query)
-
+        """
     def gui_process_command(self, query):
         """
         Process a command from the GUI, show user input, and provide appropriate responses based on the query.
