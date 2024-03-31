@@ -69,6 +69,15 @@ class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
         super().process_command(gui_user_input=query)
 
     def gui_process_command(self, query):
+        """
+        Process a command from the GUI, show user input, and provide appropriate responses based on the query.
+        
+        Parameters:
+            query (str): The command/query received from the GUI input.
+        
+        Returns:
+            None
+        """
         query = query.lower()
         # query="tell the time"
         self.assistant_gui_show_user_input(query)

@@ -135,23 +135,40 @@ class AIRA_Interactive_Assistant:
         return self.mode
 
     def assistant_gui_show_user_input(self,user_input:str):
+        """
+        Show the user input in the assistant GUI.
+
+        Parameters:
+            user_input (str): The input provided by the user.
+
+        Raises:
+            Exception: If the instance is not in GUI mode.
+
+        Returns:
+            None
+        """
         if not self.mode==1:
             raise "Not GUI INSTANCE"
         else:
             self.gui_instance.display_user_input(user_input)
             
     def assistant_output(self, response):
-
-        """Print and speak the given audio message with a mystical touch."""
+        """
+        Generate output based on the response and the current mode.
+        
+        Parameters:
+        - response: The output to be displayed or said.
+        
+        Return types: None
+        """
         if self.mode == 0:
             print(f"\033[35m{response}\033[0m")
             self.engine.say(response)
             self.engine.runAndWait()
         elif self.mode == 1:
-            self.gui_instance.display_output(response) 
+            self.gui_instance.display_output(response)
             self.engine.say(response)
-            self.engine.runAndWait()
-            
+            self.engine.runAndWait()        
 
     def greet(self):
         """Greet the user with a mystical touch."""
