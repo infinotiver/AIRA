@@ -13,12 +13,13 @@ from urllib.parse import quote
 import keyboard
 import threading
 import logging
-from collections import deque 
+from collections import deque
 import importlib.util
 import requests
 
 # (import) skills
 import skills.openapplications as openapplications
+
 try:
     import skills.findfiles as findfiles
 except:
@@ -47,6 +48,7 @@ except:
 from assistant_wrapper import AIRA_Interactive_Assistant
 from gui import GraphicalUserInterface
 
+
 class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
     def __init__(self, gui_instance):
         super().__init__(name="Aira", mode=1, gui_instance=gui_instance)
@@ -55,15 +57,15 @@ class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
     def gui_process_command(self, query):
         """
         Process a command from the GUI, show user input, and provide appropriate responses based on the query.
-        
+
         Parameters:
             query (str): The command/query received from the GUI input.
-        
+
         Returns:
             None
         """
         query = query.lower()
-  
+
         self.assistant_gui_show_user_input(query)
         if "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
@@ -77,11 +79,12 @@ class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
             response = "I don't understand that yet"
             self.assistant_output(response)
 
-
     def start_gui(self):
         if self.gui_instance is None:
             # Pass self.gui_process_command as process_command_func
-            self.app_gui = GraphicalUserInterface(process_command_func=self.gui_process_command)
+            self.app_gui = GraphicalUserInterface(
+                process_command_func=self.gui_process_command
+            )
             self.app_gui.start_gui()
             return self.app_gui
         else:
@@ -95,10 +98,14 @@ if __name__ == "__main__":
         assistant_gui_instance = GraphicalUserInterface()
 
         # Create an instance of AssistantWithGUI with the gui_instance provided
-        assistant_with_gui = InteractiveAssistantWithGUI(gui_instance=assistant_gui_instance)
+        assistant_with_gui = InteractiveAssistantWithGUI(
+            gui_instance=assistant_gui_instance
+        )
 
         # Set the process_command_func of the AssistantGUI instance
-        assistant_gui_instance.process_command_func = assistant_with_gui.gui_process_command
+        assistant_gui_instance.process_command_func = (
+            assistant_with_gui.gui_process_command
+        )
 
         # Start the GUI
         assistant_gui_instance.start_gui()

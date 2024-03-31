@@ -56,7 +56,10 @@ def play_music(music_dir):
 
 def notify(t, m):
     notification.notify(
-        title=t, message=m, app_icon=None, timeout=5,
+        title=t,
+        message=m,
+        app_icon=None,
+        timeout=5,
     )
 
 

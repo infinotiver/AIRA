@@ -139,7 +139,9 @@ class GraphicalUserInterface:
             # Get user input from the entry widget
             user_input = self.user_input_entry.get()
             print(user_input)
-            self.user_input_entry.delete(0, customtkinter.END)  # Clear the entry after use
+            self.user_input_entry.delete(
+                0, customtkinter.END
+            )  # Clear the entry after use
             self.process_command_func(query=user_input)
         except Exception as e:
             print(f"{e}")
@@ -193,4 +195,4 @@ def start_gui_alone():
     app_gui.start_gui()
 
 
-#start_gui_alone()
+# start_gui_alone()
