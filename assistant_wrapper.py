@@ -139,6 +139,7 @@ class AIRA_Interactive_Assistant:
             raise "Not GUI INSTANCE"
         else:
             self.gui_instance.display_user_input(user_input)
+            
     def assistant_output(self, response):
 
         """Print and speak the given audio message with a mystical touch."""
