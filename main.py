@@ -471,8 +471,7 @@ if __name__ == "__main__":
         elif "take snapshot" in query or "screen snip" in query:
             speak("Opening screen snipping tool")
             keyboard.press_and_release("win+shift+s")
-        elif "dictate" in query:
-            speak("Opening dictation mode")
+
         elif "fun fact" in query:
             get_fun_fact()
             keyboard.press_and_release("win+H")
