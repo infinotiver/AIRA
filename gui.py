@@ -75,7 +75,7 @@ class GraphicalUserInterface:
 
     def create_main_frame(self):
         main_frame = customtkinter.CTkFrame(
-            self.root, width=630, height=600, corner_radius=0
+            self.root, width=630, height=600, corner_radius=0, fg_color="#0c0f12"
         )
         main_frame.grid(row=0, column=1, sticky="nsew")
         self.user_input_entry = customtkinter.CTkEntry(
