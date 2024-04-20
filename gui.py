@@ -21,12 +21,12 @@ class GraphicalUserInterface:
 
     def create_sidebar(self):
         side_bar_frame = customtkinter.CTkFrame(
-            self.root, width=140, corner_radius=0, fg_color="gray10"
+            self.root, width=140, corner_radius=0, fg_color="#16182d"
         )
         side_bar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         side_bar_frame.grid_rowconfigure(4, weight=1)
         logo_label = customtkinter.CTkLabel(
-            side_bar_frame, text="A.I.R.A.", font=("Consolas", 20)
+            side_bar_frame, text="A.I.R.A.", font=("Inter", 60)
         )
         logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         settings_button = customtkinter.CTkButton(
