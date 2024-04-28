@@ -106,13 +106,13 @@ class GraphicalUserInterface:
 
         # Add labels to display computer and network stats
         cpu_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="CPU: " + psutil.cpu_percent(interval=1).__str__() + "%")
-        cpu_label.grid(row=10, column=0, padx=20, pady=(10, 10))
+        cpu_label.grid(row=10, column=0, padx=20, pady=(5, 5))
  
         memory_percent = psutil.virtual_memory().percent
         memory_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="Memory: " + f"{memory_percent:.0f}%")
-        memory_label.grid(row=11, column=0, padx=20, pady=(10, 10))
+        memory_label.grid(row=11, column=0, padx=20, pady=(5, 5))
         platform_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="System: " + platform.system())
-        platform_label.grid(row=12, column=0, padx=20, pady=(10, 10))
+        platform_label.grid(row=12, column=0, padx=20, pady=(5, 1))
 
         # Function to handle the selection of the mode from the GUI
         def select_mode():
