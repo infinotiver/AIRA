@@ -173,7 +173,7 @@ class GraphicalUserInterface:
             print(f"{e}")
 
     def display_user_input(self, input_text):
-        self.user_input_label.configure(text=f"User Input: {input_text}")
+        self.user_input_label.configure(text=f"> {input_text}")
 
     def display_output(self, output_text):
         self.output_text.configure(text=f"Output: {output_text}")
