@@ -171,11 +171,10 @@ class AIRA_Interactive_Assistant:
             print(f"\033[35m{response}\033[0m")
         elif self.mode == 1:
             self.gui_instance.display_output(response)
-        
+
         # Speak the response
         self.engine.say(response)
         self.engine.runAndWait()
-
 
     def greet(self):
         """Greet the user with a mystical touch."""
@@ -297,4 +296,3 @@ def process_command(self, gui_user_input=None):
     elif "exit" in query:
         assistant.assistant_output("Thanks for giving me your time")
         assistant.farewell()
-
