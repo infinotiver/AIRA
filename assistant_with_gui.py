@@ -69,7 +69,7 @@ class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
         self.assistant_gui_show_user_input(query)
         if "the time" in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            response = f"The time is {strTime}"
+            response = f"It is currently {strTime}"
             self.assistant_output(response)
 
         elif "exit" in query:
