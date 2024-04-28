@@ -11,7 +11,7 @@ class GraphicalUserInterface:
     root_instance = None
 
     def __init__(self, process_command_func=None):
-        self.root = customtkinter.CTk()
+        self.root = customtkinter.CTk(fg_color="#0d0f13")
         self.root.title("Assistant GUI")
         # self.root.geometry("810x600")
         self.create_sidebar()
