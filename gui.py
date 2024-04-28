@@ -98,11 +98,17 @@ class GraphicalUserInterface:
             main_frame,
             placeholder_text="Input Command",
             height=40,
-            width=350,
+            width=400,
             corner_radius=10,
             font=("Consolas", 15),
+            border_color="#353535",
+            placeholder_text_color="#fff",
+            fg_color="#16182d",
         )
-        self.user_input_entry.place(relx=0.3, rely=0.8, anchor="center")
+
+        self.user_input_entry.place(
+            rely=0.8, anchor="center", relx=0.5
+        )
 
         self.ok_button = customtkinter.CTkButton(
             main_frame,
@@ -110,18 +116,22 @@ class GraphicalUserInterface:
             command=self.handle_ok_click,
             width=100,
             height=40,
-            corner_radius=100,
-            font=("Consolas", 15),
+            corner_radius=20,
+            font=("Arial", 20),
+            fg_color="#16182d",
         )
-        self.ok_button.place(relx=0.7, rely=0.8, anchor="center")
+        self.ok_button.place(
+            rely=0.8,
+            anchor="center",
+            relx = 0.91,
+        )
         self.user_input_entry.bind("<Return>", self.handle_ok_click)
-
         self.output_text = customtkinter.CTkLabel(
             main_frame,
             text="",
             font=("Consolas", 15),
             text_color="whitesmoke",
-            fg_color="#313338",
+            fg_color="#16182d",
             corner_radius=60,
         )
         self.output_text.place(relx=0.01, rely=0.1, anchor="nw")
@@ -129,7 +139,7 @@ class GraphicalUserInterface:
             main_frame,
             text="...",
             font=("Consolas", 12),
-            fg_color="#333333",
+            fg_color="black",
             text_color="white",
             corner_radius=10,
         )
@@ -139,7 +149,7 @@ class GraphicalUserInterface:
             text="Press the SEND button...",
             font=("Consolas", 15),
             text_color="#c5c1c1",
-            fg_color="#303136",
+            fg_color="#16182d",
             corner_radius=60,
         )
         self.user_input_label.place(relx=0.981, rely=0.01, anchor="ne")
