@@ -2,6 +2,8 @@ import tkinter as tk
 import customtkinter
 from time import strftime
 import webbrowser
+import psutil
+import platform
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("dark-blue")
@@ -79,6 +81,39 @@ class GraphicalUserInterface:
         # Create radio buttons for the two modes
         mode_selection_dropdown.grid(row=8, column=0, padx=20, pady=(10, 10))
 
+        # Add a label to display internet connection status
+        internet_status_label = customtkinter.CTkLabel(side_bar_frame, text="", corner_radius= 30)
+        internet_status_label.grid(row=9, column=0, padx=20, pady=(10, 10))
+
+        def update_internet_status():
+            """
+            Updates the internet status label with green if connected, red if not.
+            """
+            import socket
+
+            try:
+                # connect to the host "google.com" (does not send any data)
+                socket.create_connection(("google.com", 80))
+                internet_status_label.configure(text="Internet: Online", fg_color="green")
+            except OSError:
+                internet_status_label.configure(text="Internet: Offline", fg_color="red")
+
+            # Update the stats every 10 seconds
+            side_bar_frame.after(10000, update_internet_status)
+
+        # Call the function initially to update the status
+        update_internet_status()
+
+        # Add labels to display computer and network stats
+        cpu_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="CPU: " + psutil.cpu_percent(interval=1).__str__() + "%")
+        cpu_label.grid(row=10, column=0, padx=20, pady=(10, 10))
+ 
+        memory_percent = psutil.virtual_memory().percent
+        memory_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="Memory: " + f"{memory_percent:.0f}%")
+        memory_label.grid(row=11, column=0, padx=20, pady=(10, 10))
+        platform_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="System: " + platform.system())
+        platform_label.grid(row=12, column=0, padx=20, pady=(10, 10))
+
         # Function to handle the selection of the mode from the GUI
         def select_mode():
             """
@@ -101,14 +136,12 @@ class GraphicalUserInterface:
             width=400,
             corner_radius=10,
             font=("Consolas", 15),
-            border_color="#353535",
+            border_color="#1d1c6d",
             placeholder_text_color="#fff",
             fg_color="#16182d",
         )
 
-        self.user_input_entry.place(
-            rely=0.8, anchor="center", relx=0.5
-        )
+        self.user_input_entry.place(rely=0.8, anchor="center", relx=0.5)
 
         self.ok_button = customtkinter.CTkButton(
             main_frame,
@@ -123,7 +156,7 @@ class GraphicalUserInterface:
         self.ok_button.place(
             rely=0.8,
             anchor="center",
-            relx = 0.91,
+            relx=0.91,
         )
         self.user_input_entry.bind("<Return>", self.handle_ok_click)
         self.output_text = customtkinter.CTkLabel(
@@ -202,7 +235,8 @@ class GraphicalUserInterface:
         about_label.pack(pady=(10, 0))
 
         code_label = customtkinter.CTkLabel(
-            about_window, text="This is a voice / text operated personal assistant ",
+            about_window,
+            text="This is a voice / text operated personal assistant ",
         )
         code_label.pack(pady=(0, 5))
 
