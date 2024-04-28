@@ -26,7 +26,7 @@ class GraphicalUserInterface:
         side_bar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         side_bar_frame.grid_rowconfigure(4, weight=1)
         logo_label = customtkinter.CTkLabel(
-            side_bar_frame, text="AIRA", font=("Inter", 60)
+            side_bar_frame, text="AIRA", font=("Inter ExtraBold", 60)
         )
         logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         settings_button = customtkinter.CTkButton(
