@@ -30,11 +30,27 @@ class GraphicalUserInterface:
         )
         logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         settings_button = customtkinter.CTkButton(
-            side_bar_frame, text="Settings", font=("Consolas", 15), command=None
+            side_bar_frame,
+            text="Settings",
+            font=("Arial", 20),
+            command=None,
+            corner_radius=100,
+            fg_color="#fff",
+            text_color="#000",
+            hover=False,
+            border_spacing=5,
         )
         settings_button.grid(row=1, column=0, padx=20, pady=10)
         sidebar_button_2 = customtkinter.CTkButton(
-            side_bar_frame, text="About", font=("Consolas", 15), command=self.open_about
+            side_bar_frame,
+            text="About",
+            font=("Arial", 20),
+            command=self.open_about,
+            corner_radius=100,
+            fg_color="#fff",
+            text_color="#000",
+            hover=False,
+            border_spacing=5,
         )
         sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
         theme_label = customtkinter.CTkLabel(
