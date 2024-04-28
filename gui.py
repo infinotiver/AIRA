@@ -176,7 +176,7 @@ class GraphicalUserInterface:
         self.user_input_label.configure(text=f"> {input_text}")
 
     def display_output(self, output_text):
-        self.output_text.configure(text=f"Output: {output_text}")
+        self.output_text.configure(text=f"{output_text}")
 
     def open_settings(self):
         print("Opening settings...")
