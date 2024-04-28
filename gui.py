@@ -188,15 +188,24 @@ class GraphicalUserInterface:
         about_window = customtkinter.CTkToplevel(self.root)
         about_window.title("About")
         about_window.geometry("300x200")
+        about_window.transient(self.root)
+        about_window.grab_set()
+        about_window.attributes("-topmost", True)
+        about_window.attributes("-topmost", False)
 
         about_label = customtkinter.CTkLabel(
             about_window,
             text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver",
             font=("Consolas", 14),
+            anchor="center",
         )
+        about_label.pack(pady=(10, 0))
+
         code_label = customtkinter.CTkLabel(
-            about_window, text="This is a voice / text operated personal assistant "
+            about_window, text="This is a voice / text operated personal assistant ",
         )
+        code_label.pack(pady=(0, 5))
+
         code_button = customtkinter.CTkButton(
             about_window,
             text="View Source Code",
@@ -204,8 +213,7 @@ class GraphicalUserInterface:
             fg_color="black",
             corner_radius=100,
         )
-        about_label.pack(pady=10)
-        code_label.pack(pady=5)
+        code_button.place(relx=0.5, rely=0.6, anchor="center")
         code_button.place(anchor="center", rely=0.6, relx=0.5)
 
     def open_code(self):
