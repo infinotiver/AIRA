@@ -143,6 +143,7 @@ class GraphicalUserInterface:
             text="System: " + platform.system(),
             fg_color="#151134",
         )
+        platform_label.grid(row=12, column=0, padx=20, pady=(5, 5), sticky="we")
 
         # Function to handle the selection of the mode from the GUI
         def select_mode():
