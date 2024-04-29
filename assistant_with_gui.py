@@ -49,7 +49,7 @@ from assistant_wrapper import Wrapper
 from gui import GraphicalUserInterface
 
 
-class InteractiveAssistantWithGUI(Wrapper):
+class GUI_Assistant(Wrapper):
     def __init__(self, gui_instance):
         super().__init__(name="Aira", mode=1, gui_instance=gui_instance)
         self.app_gui = None  # Initialize app_gui attribute
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         assistant_gui_instance = GraphicalUserInterface()
 
         # Create an instance of AssistantWithGUI with the gui_instance provided
-        assistant_with_gui = InteractiveAssistantWithGUI(
+        assistant_with_gui = GUI_Assistant(
             gui_instance=assistant_gui_instance
         )
 
