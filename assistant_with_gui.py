@@ -45,11 +45,11 @@ try:
 except:
     pass
 
-from assistant_wrapper import AIRA_Interactive_Assistant
+from assistant_wrapper import Wrapper
 from gui import GraphicalUserInterface
 
 
-class InteractiveAssistantWithGUI(AIRA_Interactive_Assistant):
+class InteractiveAssistantWithGUI(Wrapper):
     def __init__(self, gui_instance):
         super().__init__(name="Aira", mode=1, gui_instance=gui_instance)
         self.app_gui = None  # Initialize app_gui attribute

@@ -29,7 +29,7 @@ import skills.definition as definition
 # [TODO] Natural Language Understanding (NLU) integration
 
 
-class AIRA_Interactive_Assistant:
+class Wrapper:
     def __init__(self, name: str, mode: int = 0, gui_instance=None) -> None:
         """
         Initialize the Chatbot class.
@@ -237,7 +237,7 @@ def process_command(self, gui_user_input=None):
     Raises:
         None.
     """
-    assistant = AIRA_Interactive_Assistant()
+    assistant = Wrapper()
     if self.mode == 0:
         query = assistant.take_command().lower()
     else:
