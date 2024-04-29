@@ -63,6 +63,11 @@ class GraphicalUserInterface:
             side_bar_frame,
             values=["Dark", "Light", "System"],
             command=self.change_appearance_mode_event,
+            fg_color="#fff",
+            text_color="#000",
+            dropdown_fg_color="#16182d",
+            dropdown_text_color="#fff",
+            button_color="#fff",
         )
         appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
 
@@ -77,13 +82,20 @@ class GraphicalUserInterface:
             side_bar_frame,
             values=["Text", "Speech"],
             variable=var,
+            fg_color="#fff",
+            text_color="#000",
+            dropdown_fg_color="#16182d",
+            dropdown_text_color="#fff",
+            button_color="#fff",
         )
         # Create radio buttons for the two modes
         mode_selection_dropdown.grid(row=8, column=0, padx=20, pady=(10, 10))
 
         # Add a label to display internet connection status
-        internet_status_label = customtkinter.CTkLabel(side_bar_frame, text="", corner_radius= 30)
-        internet_status_label.grid(row=9, column=0, padx=20, pady=(10, 10))
+        internet_status_label = customtkinter.CTkLabel(
+            side_bar_frame, text="", corner_radius=30
+        )
+        internet_status_label.grid(row=9, column=0, padx=20, pady=(10, 10), sticky="we")
 
         def update_internet_status():
             """
@@ -94,9 +106,13 @@ class GraphicalUserInterface:
             try:
                 # connect to the host "google.com" (does not send any data)
                 socket.create_connection(("google.com", 80))
-                internet_status_label.configure(text="Internet: Online", fg_color="green")
+                internet_status_label.configure(
+                    text="Internet: Online", fg_color="green"
+                )
             except OSError:
-                internet_status_label.configure(text="Internet: Offline", fg_color="red")
+                internet_status_label.configure(
+                    text="Internet: Offline", fg_color="red"
+                )
 
             # Update the stats every 10 seconds
             side_bar_frame.after(10000, update_internet_status)
@@ -105,14 +121,28 @@ class GraphicalUserInterface:
         update_internet_status()
 
         # Add labels to display computer and network stats
-        cpu_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="CPU: " + psutil.cpu_percent(interval=1).__str__() + "%")
-        cpu_label.grid(row=10, column=0, padx=20, pady=(5, 5))
- 
+        cpu_label = customtkinter.CTkLabel(
+            side_bar_frame,
+            corner_radius=10,
+            text="CPU: " + psutil.cpu_percent(interval=1).__str__() + "%",
+            fg_color="#30365c",
+        )
+        cpu_label.grid(row=10, column=0, padx=20, pady=(5, 5), sticky="we")
+
         memory_percent = psutil.virtual_memory().percent
-        memory_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="Memory: " + f"{memory_percent:.0f}%")
-        memory_label.grid(row=11, column=0, padx=20, pady=(5, 5))
-        platform_label = customtkinter.CTkLabel(side_bar_frame, fg_color="#1d1c6d", corner_radius=10, text="System: " + platform.system())
-        platform_label.grid(row=12, column=0, padx=20, pady=(5, 1))
+        memory_label = customtkinter.CTkLabel(
+            side_bar_frame,
+            corner_radius=10,
+            text="Memory: " + f"{memory_percent:.0f}%",
+            fg_color="#30365c",
+        )
+        memory_label.grid(row=11, column=0, padx=20, pady=(5, 5), sticky="we")
+        platform_label = customtkinter.CTkLabel(
+            side_bar_frame,
+            corner_radius=10,
+            text="System: " + platform.system(),
+            fg_color="#151134",
+        )
 
         # Function to handle the selection of the mode from the GUI
         def select_mode():
