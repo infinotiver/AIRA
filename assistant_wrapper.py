@@ -16,14 +16,6 @@ from collections import deque
 import importlib.util
 import requests
 
-# (import) skills
-import skills.openapplications as openapplications
-import skills.findfiles as findfiles
-import skills.weather as weather
-import skills.chat as chat
-import skills.fonts as fonts
-import skills.sendmail as sendmail
-import skills.definition as definition
 
 
 # [TODO] Natural Language Understanding (NLU) integration
@@ -223,6 +215,3 @@ class Wrapper:
                 return gui_user_input
             except:
                 raise " Please pass user input "
-
-
-
