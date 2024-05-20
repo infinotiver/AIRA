@@ -1,16 +1,12 @@
 from typing import List
 import pyttsx3
 import speech_recognition as sr
-import wikipedia
-import webbrowser
 import datetime
 import os
 import time
 import requests
 from plyer import notification
-from urllib.parse import quote
 import keyboard
-import threading
 import logging
 from collections import deque
 import importlib.util
