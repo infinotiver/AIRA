@@ -98,9 +98,7 @@ if __name__ == "__main__":
         assistant_gui_instance = GraphicalUserInterface()
 
         # Create an instance of AssistantWithGUI with the gui_instance provided
-        assistant_with_gui = GUI_Assistant(
-            gui_instance=assistant_gui_instance
-        )
+        assistant_with_gui = GUI_Assistant(gui_instance=assistant_gui_instance)
 
         # Set the process_command_func of the AssistantGUI instance
         assistant_gui_instance.process_command_func = (
