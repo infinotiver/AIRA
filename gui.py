@@ -56,7 +56,7 @@ class GraphicalUserInterface:
         )
         sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
         theme_label = customtkinter.CTkLabel(
-            side_bar_frame, text="Theme (Beta)", font=("Consolas", 15)
+            side_bar_frame, text="Theme", font=("Consolas", 15)
         )
         theme_label.grid(row=5, column=0, padx=20, pady=(10, 10))
         appearance_mode_optionemenu = customtkinter.CTkOptionMenu(
@@ -72,7 +72,7 @@ class GraphicalUserInterface:
         appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
 
         # Create a label to display the message
-        label = customtkinter.CTkLabel(side_bar_frame, text="Choose an input mode:")
+        label = customtkinter.CTkLabel(side_bar_frame, text="Input Mode:")
         label.grid(row=7, column=0)
 
         # Create a StringVar object to store the selected mode
@@ -167,7 +167,7 @@ class GraphicalUserInterface:
             width=400,
             corner_radius=10,
             font=("Consolas", 15),
-            border_color="#1d1c6d",
+            border_color="#30365c",
             placeholder_text_color="#30365c",
             fg_color="#16182d",
         )
@@ -192,7 +192,7 @@ class GraphicalUserInterface:
         self.user_input_entry.bind("<Return>", self.handle_ok_click)
         self.output_text = customtkinter.CTkLabel(
             main_frame,
-            text="",
+            text="Press the SEND button",
             font=("Consolas", 15),
             text_color="whitesmoke",
             fg_color="#16182d",
@@ -259,7 +259,7 @@ class GraphicalUserInterface:
 
         about_label = customtkinter.CTkLabel(
             about_window,
-            text="Assistant GUI\nVersion 1.0\nDeveloped by Infinotiver",
+            text="A.I.R.A\nVersion 1.0GUI\nDeveloped by Infinotiver",
             font=("Consolas", 14),
             anchor="center",
         )
