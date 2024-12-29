@@ -10,7 +10,6 @@ import keyboard
 import logging
 from collections import deque
 import importlib.util
-import requests
 
 
 
