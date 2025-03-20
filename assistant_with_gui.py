@@ -45,13 +45,13 @@ try:
 except:
     pass
 
-from assistant_wrapper import Wrapper
+from assistant_wrapper import Wrapper, InterfaceMode, InputMode
 from gui import GraphicalUserInterface
 
 
 class GUI_Assistant(Wrapper):
     def __init__(self, gui_instance):
-        super().__init__(name="Aira", mode=1, gui_instance=gui_instance)
+        super().__init__(name="Aira", interface_mode=InterfaceMode.GUI, gui_instance=gui_instance)
         self.app_gui = None  # Initialize app_gui attribute
 
     def gui_process_command(self, query):

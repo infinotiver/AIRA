@@ -1,36 +1,34 @@
-from typing import List
-import pyttsx3
-import speech_recognition as sr
-import datetime
-import os
-import time
-import requests
-from plyer import notification
-import keyboard
+from enum import Enum
 import logging
+import pyttsx3
 from collections import deque
-import importlib.util
+from typing import List, Any
 
+class InterfaceMode(Enum):
+    TERMINAL = 0
+    GUI = 1
 
-
-# [TODO] Natural Language Understanding (NLU) integration
-
+class InputMode(Enum):
+    TEXT = 0
+    SPEECH = 1
 
 class Wrapper:
-    def __init__(self, name: str, mode: int = 0, gui_instance=None) -> None:
+    def __init__(self, name: str, interface_mode: InterfaceMode = InterfaceMode.TERMINAL, input_mode: InputMode = InputMode.TEXT, gui_instance=None) -> None:
         """
         Initialize the Chatbot class.
 
         Parameters:
             name (str): The name of the chatbot.
-            mode (int): The mode of the chatbot (0 for terminal mode, 1 for GUI mode).
+            interface_mode (InterfaceMode): The interface mode of the chatbot (InterfaceMode.TERMINAL for terminal mode, InterfaceMode.GUI for GUI mode).
+            input_mode (InputMode): The input mode of the chatbot (InputMode.TEXT for text input, InputMode.SPEECH for speech input).
             gui_instance (Any): An optional GUI instance.
 
         Returns:
             None
         """
         self.name: str = name
-        self.mode: int = mode  # 0 represents terminal mode, 1 represents GUI mode
+        self.interface_mode: InterfaceMode = interface_mode
+        self.input_mode: InputMode = input_mode
         self.clients: dict = {}  # Dictionary to store external clients
         self.commands: dict = {}  # Dictionary to store registered commands
         self.logger: logging.Logger = logging.getLogger(__name__)
@@ -51,11 +49,17 @@ class Wrapper:
         """Return the command history as a list of strings."""
         return list(self.command_history)
 
-    def change_mode(self, mode: int):
-        if mode in (0, 1):
-            self.mode = mode
+    def change_interface_mode(self, mode: InterfaceMode):
+        if isinstance(mode, InterfaceMode):
+            self.interface_mode = mode
         else:
-            raise ValueError("Invalid mode. Please enter 0 or 1.")
+            raise ValueError("Invalid interface mode. Please enter InterfaceMode.TERMINAL or InterfaceMode.GUI.")
+
+    def change_input_mode(self, mode: InputMode):
+        if isinstance(mode, InputMode):
+            self.input_mode = mode
+        else:
+            raise ValueError("Invalid input mode. Please enter InputMode.TEXT or InputMode.SPEECH.")
 
     def import_skill(skill_name):
         """Import a skill module dynamically."""
@@ -174,10 +178,10 @@ class Wrapper:
             greetings = "Good Evening"
 
         self.assistant_output(greetings, " user ")
-        self.notify("Aira", "Assistant Initialised")
+        self.notify("Aira", "Assistant Initialized")
 
     def farewell(self):
-        """Bid farewell to the user with a mystical touch."""
+        """Bid farewell to the user."""
         self.assistant_output(
             "May your journey be filled with wonder and enchantment. Farewell!"
         )
