@@ -132,19 +132,17 @@ class Wrapper:
         mode_var = None
 
         # Loop until a mode is selected
-        while mode_var is None:
-            # Check if 't' key is pressed
+        while True:
             if keyboard.is_pressed("t"):
-                self.assistant_output("You have successfully selected: Text Input Mode")
-                self.input_mode = InputMode.TEXT # Set the mode variable to 0 for text input mode
-                time.sleep(0.6) # Pause for 0.6 seconds
-            # Check if 's' key is pressed
+                self.input_mode = InputMode.TEXT
+                self.assistant_output("You have selected: Text Input Mode")
+                break
             elif keyboard.is_pressed("s"):
-                self.assistant_output(
-                    "You have successfully selected: Speech Input Mode"
-                )
                 self.input_mode = InputMode.SPEECH
-                time.sleep(0.6) # Pause for 0.6 seconds
+                self.assistant_output("You have selected: Speech Input Mode")
+                break
+            time.sleep(0.2)  
+
         return self.input_mode
 
     def assistant_gui_show_user_input(self, user_input: str):
