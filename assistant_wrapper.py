@@ -11,16 +11,25 @@ import importlib.util
 import speech_recognition as sr
 from plyer import notification
 
+
 class InterfaceMode(Enum):
     TERMINAL = 0
     GUI = 1
+
 
 class InputMode(Enum):
     TEXT = 0
     SPEECH = 1
 
+
 class Wrapper:
-    def __init__(self, name: str, interface_mode: InterfaceMode = InterfaceMode.TERMINAL, input_mode: InputMode = InputMode.TEXT, gui_instance=None) -> None:
+    def __init__(
+        self,
+        name: str,
+        interface_mode: InterfaceMode = InterfaceMode.TERMINAL,
+        input_mode: InputMode = InputMode.TEXT,
+        gui_instance=None,
+    ) -> None:
         """
         Initialize the Chatbot class.
 
@@ -60,13 +69,17 @@ class Wrapper:
         if isinstance(mode, InterfaceMode):
             self.interface_mode = mode
         else:
-            raise ValueError("Invalid interface mode. Use InterfaceMode.TERMINAL or InterfaceMode.GUI.")
+            raise ValueError(
+                "Invalid interface mode. Use InterfaceMode.TERMINAL or InterfaceMode.GUI."
+            )
 
     def change_input_mode(self, mode: InputMode):
         if isinstance(mode, InputMode):
             self.input_mode = mode
         else:
-            raise ValueError("Invalid input mode. Use InputMode.TEXT or InputMode.SPEECH.")
+            raise ValueError(
+                "Invalid input mode. Use InputMode.TEXT or InputMode.SPEECH."
+            )
 
     def import_skill(self, skill_name):
         """Import a skill module dynamically."""
@@ -99,7 +112,7 @@ class Wrapper:
             timeout=5,
         )
 
-    def mode_select(self):
+    def select_input_mode(self):
         """
         Selects the input mode for interacting with the assistant.
 
@@ -109,15 +122,13 @@ class Wrapper:
             int: The selected input mode. 0 for text input mode and 1 for speech input mode.
 
         """
-        # If the input method is not equal to 1, prompt the user to select the mode using the keyboard
         self.assistant_output(
             f"Please select an input mode for interacting with {self.name}"
         )
         self.assistant_output(
-            "Press 't' for Text Input Mode\nPress 's' for Speech Input Mode "
+            "Press 't' for Text Input Mode\nPress 's' for Speech Input Mode"
         )
 
-        # Initialize the mode variable to None
         mode_var = None
 
         # Loop until a mode is selected
