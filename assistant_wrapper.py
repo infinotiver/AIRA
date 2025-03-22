@@ -136,17 +136,16 @@ class Wrapper:
             # Check if 't' key is pressed
             if keyboard.is_pressed("t"):
                 self.assistant_output("You have successfully selected: Text Input Mode")
-                mode_var = 0  # Set the mode variable to 0 for text input mode
-                time.sleep(0.6)  # Pause for 0.6 seconds
+                self.input_mode = InputMode.TEXT # Set the mode variable to 0 for text input mode
+                time.sleep(0.6) # Pause for 0.6 seconds
             # Check if 's' key is pressed
             elif keyboard.is_pressed("s"):
                 self.assistant_output(
                     "You have successfully selected: Speech Input Mode"
                 )
-                mode_var = 1  # Set the mode variable to 1 for speech input mode
-                time.sleep(0.6)  # Pause for 0.6 seconds
-        self.mode = mode_var
-        return self.mode
+                self.input_mode = InputMode.SPEECH
+                time.sleep(0.6) # Pause for 0.6 seconds
+        return self.input_mode
 
     def assistant_gui_show_user_input(self, user_input: str):
         """
@@ -190,7 +189,7 @@ class Wrapper:
         self.notify("Aira", "Assistant Initialized")
 
     def farewell(self):
-        """Bid farewell to the user."""
+        """Farewell message."""
         self.assistant_output(
             "May your journey be filled with wonder and enchantment. Farewell!"
         )
