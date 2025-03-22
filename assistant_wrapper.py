@@ -3,6 +3,13 @@ import logging
 import pyttsx3
 from collections import deque
 from typing import List, Any
+import datetime
+import time
+import keyboard
+import requests
+import importlib.util
+import speech_recognition as sr
+from plyer import notification
 
 class InterfaceMode(Enum):
     TERMINAL = 0
