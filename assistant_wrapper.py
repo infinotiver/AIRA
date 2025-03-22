@@ -161,26 +161,18 @@ class Wrapper:
         Returns:
             None
         """
-        if not self.mode == 1:
-            raise "Not GUI INSTANCE"
+        if self.interface_mode != InterfaceMode.GUI:
+            raise Exception("Not a GUI instance.")
         else:
             self.gui_instance.display_user_input(user_input)
 
     def assistant_output(self, response):
-        """
-        Generate output based on the response and the current mode.
-
-        Parameters:
-        - response: The output to be displayed or said.
-
-        Return types: None
-        """
-        if self.mode == 0:
+        """Handle assistant response output."""
+        if self.interface_mode == InterfaceMode.TERMINAL:
             print(f"\033[35m{response}\033[0m")
-        elif self.mode == 1:
+        elif self.interface_mode == InterfaceMode.GUI:
             self.gui_instance.display_output(response)
 
-        # Speak the response
         self.engine.say(response)
         self.engine.runAndWait()
 
