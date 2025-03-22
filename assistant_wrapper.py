@@ -212,3 +212,29 @@ class Wrapper:
                 return gui_user_input
             else:
                 raise ValueError("Please pass user input.")
+                
+    def register_command(self, name: str, handler: callable, description: str = ""):
+        """Registers a command manually."""
+        self.commands[name] = {"handler": handler, "description": description}
+
+    def dispatch_command(self, command_name: str, *args, **kwargs):
+        """Dispatches a command by name."""
+        if command_name in self.commands:
+            return self.commands[command_name]["handler"](*args, **kwargs)
+        else:
+            self.assistant_output(f"Command '{command_name}' not found.")
+
+    def command(self, name: str = None, description: str = ""):
+        """
+        Decorator for registering a command directly with a function.
+
+        Usage:
+        @bot.command(name="hello", description="Greet the user")
+        def greet():
+            print("Hi!")
+        """
+        def decorator(func):
+            cmd_name = name or func.__name__
+            self.register_command(cmd_name, func, description)
+            return func
+        return decorator
