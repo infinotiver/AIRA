@@ -2,7 +2,7 @@ from enum import Enum
 import logging
 import pyttsx3
 from collections import deque
-from typing import List, Any
+from typing import List, Any, Optional
 import datetime
 import time
 import keyboard
@@ -28,7 +28,7 @@ class Wrapper:
         name: str,
         interface_mode: InterfaceMode = InterfaceMode.TERMINAL,
         input_mode: InputMode = InputMode.TEXT,
-        gui_instance=None,
+        gui_instance: Optional[Any] = None,
     ) -> None:
         """
         Initialize the Chatbot class.
@@ -54,14 +54,14 @@ class Wrapper:
         self.engine.setProperty("voice", self.voices[1].id)  # Choose female voice
         self.engine.setProperty("volume", 0.9)
         self.engine.setProperty("rate", 190)
-        self.command_history: deque = deque(maxlen=5)  # Stores the last 5 commands
+        self.command_history: deque[str] = deque(maxlen=5) # Stores the last 5 commands
         self.gui_instance = gui_instance  # Reference to the GUI instance
 
     def update_command_history(self, command):
         """Add a command to the command history."""
         self.command_history.append(command)
 
-    def get_command_history(self):
+    def get_command_history(self) -> List[str]:
         """Return the command history as a list of strings."""
         return list(self.command_history)
 
@@ -194,7 +194,7 @@ class Wrapper:
             "May your journey be filled with wonder and enchantment. Farewell!"
         )
 
-    def take_command(self, gui_user_input=None):
+    def take_command(self, gui_user_input: Optional[str] = None) -> str
         """Capture user command through text or speech."""
         if self.input_mode == InputMode.SPEECH:
             recognizer = sr.Recognizer()
