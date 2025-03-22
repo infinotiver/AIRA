@@ -177,16 +177,16 @@ class Wrapper:
         self.engine.runAndWait()
 
     def greet(self):
-        """Greet the user with a mystical touch."""
+        """Greet the user based on the time of the day."""
         hour = int(datetime.datetime.now().hour)
-        if hour > 0 and hour <= 12:
+        if hour >= 0 and hour < 12:
             greetings = "Good Morning"
-        elif hour > 12 and hour <= 18:
+        elif hour >= 12 and hour < 18:
             greetings = "Good Afternoon"
         else:
             greetings = "Good Evening"
 
-        self.assistant_output(greetings, " user ")
+        self.assistant_output(f"{greetings} user")
         self.notify("Aira", "Assistant Initialized")
 
     def farewell(self):
