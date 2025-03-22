@@ -196,30 +196,22 @@ class Wrapper:
         )
 
     def take_command(self, gui_user_input=None):
-        """
-        Capture and return a user command, allowing voice and text input.
-        """
-        if self.mode == 0:
-            """Capture and return a user command, allowing voice and text input."""
-            r = sr.Recognizer()
-
+        """Capture user command through text or speech."""
+        if self.input_mode == InputMode.SPEECH:
+            recognizer = sr.Recognizer()
             print("Speak your wish...")
             with sr.Microphone() as source:
-                r.adjust_for_ambient_noise(source)
-                r.pause_threshold = 1
-                r.dynamic_energy_threshold = False
-                r.adjust_for_ambient_noise(source, duration=2)
-
-                audio = r.listen(source)  # Set timeout to 30 seconds
+                recognizer.adjust_for_ambient_noise(source)
+                recognizer.pause_threshold = 1
+                recognizer.dynamic_energy_threshold = False
+                recognizer.adjust_for_ambient_noise(source, duration=2)
+                audio = recognizer.listen(source)
             print("Recognizing voice input...")
-            query = r.recognize_google(audio, language="en-in")
-
+            query = recognizer.recognize_google(audio, language="en-in")
             print(f"User > {query}\n")
-
             return query
-
-        elif self.mode == 1:
-            try:
+        else:
+            if gui_user_input is not None:
                 return gui_user_input
-            except:
-                raise " Please pass user input "
+            else:
+                raise ValueError("Please pass user input.")
