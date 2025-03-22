@@ -60,19 +60,18 @@ class Wrapper:
         if isinstance(mode, InterfaceMode):
             self.interface_mode = mode
         else:
-            raise ValueError("Invalid interface mode. Please enter InterfaceMode.TERMINAL or InterfaceMode.GUI.")
+            raise ValueError("Invalid interface mode. Use InterfaceMode.TERMINAL or InterfaceMode.GUI.")
 
     def change_input_mode(self, mode: InputMode):
         if isinstance(mode, InputMode):
             self.input_mode = mode
         else:
-            raise ValueError("Invalid input mode. Please enter InputMode.TEXT or InputMode.SPEECH.")
+            raise ValueError("Invalid input mode. Use InputMode.TEXT or InputMode.SPEECH.")
 
-    def import_skill(skill_name):
+    def import_skill(self, skill_name):
         """Import a skill module dynamically."""
         try:
             if requests.get("http://www.google.com").status_code == 200:
-                # If internet connection is available, import the skill module
                 spec = importlib.util.find_spec(f"skills.{skill_name}")
                 if spec:
                     module = importlib.util.module_from_spec(spec)
